@@ -1,6 +1,8 @@
 // AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8  google API Key
 // 200235024-32c4fc71813961608e163497918dd634 mtb project API key
 
+// Google Multiple Results for brewery url: https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.5407,-77.4360&radius=1000&keyword=brewery&key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8
+
 // https://www.mtbproject.com/data/get-trails?lat=40.0274&lon=-105.2519&maxDistance=10&key=200235024-32c4fc71813961608e163497918dd634
 
 function call(){
@@ -16,7 +18,6 @@ function call(){
 
 $(document).ready(function(){
     call();
-
 
     // end of doc ready
 });
