@@ -22,7 +22,11 @@ function trailList() {
     for (var i = 0; i < mtbObject.trails.length; i++) {
         var trailName = mtbObject.trails[i].name;
         console.log(trailName);
-        var trailItem = $("<li>").text(trailName);
+        var trailItem = $("<li>")
+        var trailLink = $("<a href='" + mtbObject.trails[i].url + "'></a>");
+        trailLink.attr("target", "_blank");
+        trailLink.text(trailName);
+        trailItem.append(trailLink);
         $("#mtbList").append(trailItem);
     }
 }
