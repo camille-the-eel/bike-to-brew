@@ -2,19 +2,28 @@
 // 200235024-32c4fc71813961608e163497918dd634 mtb project API key
 
 // https://www.mtbproject.com/data/get-trails?lat=40.0274&lon=-105.2519&maxDistance=10&key=200235024-32c4fc71813961608e163497918dd634
-
-function call(){
-    var queryURL= "https://www.mtbproject.com/data/get-trails?lat=37.5407&lon=-77.4360&maxDistance=2&key=200235024-32c4fc71813961608e163497918dd634";
+var mtbObject
+function call() {
+    var queryURL = "https://www.mtbproject.com/data/get-trails?lat=37.5407&lon=-77.4360&maxDistance=2&key=200235024-32c4fc71813961608e163497918dd634";
 
     $.ajax({
         url: queryURL,
         method: "GET"
-    }).then(function(response) {
-            console.log(response);
-        });
+    }).then(function (response) {
+        mtbObject = response;
+        console.log(mtbObject);
+        trailList();
+    });
 }
 
-$(document).ready(function(){
+function trailList() {
+    for (var i = 0; i < mtbObject.trails.length; i++) {
+        var trailName = mtbObject.trails[i].name;
+        console.log(trailName);
+    }
+    alert("trails")
+}
+$(document).ready(function () {
     call();
 
 
