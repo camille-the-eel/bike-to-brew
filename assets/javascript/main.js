@@ -31,90 +31,134 @@ function markerMap() {
             zoom: 12, 
             center: latLong, 
             styles: [
-                {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-                {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
-                {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
-                {
-                featureType: 'administrative.locality',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#d59563'}]
+                {elementType: "geometry", 
+                stylers: [{color: "#242f3e"}]
+                },
+                {elementType: "labels.text.stroke", 
+                stylers: [{color: "#242f3e"}]
+                },
+                {elementType: "labels.text.fill", 
+                stylers: [{color: "#746855"}]
                 },
                 {
-                featureType: 'poi',
-                elementType: 'labels.text.fill',
-                stylers: [{visibility: 'off'}]
+                featureType: "administrative.locality",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#d59563"}]
                 },
                 {
-                featureType: 'poi.park',
-                elementType: 'geometry',
-                stylers: [{color: '#263c3f'}]
+                featureType: "poi",
+                elementType: "labels.text.fill",
+                stylers: [{visibility: "off"}]
                 },
                 {
-                featureType: 'poi.park',
-                elementType: 'labels.text.fill',
-                stylers: [{visibility: 'off'}]
+                featureType: "poi.park",
+                elementType: "geometry",
+                stylers: [{color: "#263c3f"}]
                 },
                 {
-                featureType: 'road',
-                elementType: 'geometry',
-                stylers: [{color: '#38414e'}]
+                featureType: "poi.park",
+                elementType: "labels.text.fill",
+                stylers: [{visibility: "off"}]
                 },
                 {
-                featureType: 'road',
-                elementType: 'geometry.stroke',
-                stylers: [{color: '#212a37'}]
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [{color: "#38414e"}]
                 },
                 {
-                featureType: 'road',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#9ca5b3'}]
+                featureType: "road",
+                elementType: "geometry.stroke",
+                stylers: [{color: "#212a37"}]
                 },
                 {
-                featureType: 'road.highway',
-                elementType: 'geometry',
-                stylers: [{color: '#746855'}]
+                featureType: "road",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#9ca5b3"}]
                 },
                 {
-                featureType: 'road.highway',
-                elementType: 'geometry.stroke',
-                stylers: [{color: '#1f2835'}]
+                featureType: "road.highway",
+                elementType: "geometry",
+                stylers: [{color: "#746855"}]
                 },
                 {
-                featureType: 'road.highway',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#f3d19c'}]
+                featureType: "road.highway",
+                elementType: "geometry.stroke",
+                stylers: [{color: "#1f2835"}]
                 },
                 {
-                featureType: 'transit',
-                elementType: 'geometry',
-                stylers: [{visibility: 'off'}]
+                featureType: "road.highway",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#f3d19c"}]
                 },
                 {
-                featureType: 'transit.station',
-                elementType: 'labels.text.fill',
-                stylers: [{visibility: 'off'}]
+                featureType: "transit",
+                elementType: "geometry",
+                stylers: [{visibility: "off"}]
                 },
                 {
-                featureType: 'water',
-                elementType: 'geometry',
-                stylers: [{color: '#17263c'}]
+                featureType: "transit.station",
+                elementType: "labels.text.fill",
+                stylers: [{visibility: "off"}]
                 },
                 {
-                featureType: 'water',
-                elementType: 'labels.text.fill',
-                stylers: [{color: '#515c6d'}]
+                featureType: "water",
+                elementType: "geometry",
+                stylers: [{color: "#17263c"}]
                 },
                 {
-                featureType: 'water',
-                elementType: 'labels.text.stroke',
-                stylers: [{color: '#17263c'}]
+                featureType: "water",
+                elementType: "labels.text.fill",
+                stylers: [{color: "#515c6d"}]
+                },
+                {
+                featureType: "water",
+                elementType: "labels.text.stroke",
+                stylers: [{color: "#17263c"}]
             }
         ]
     });
     
-    var marker = new google.maps.Marker({position:latLong, map: map});
-    var marker2 = new google.maps.Marker({position:latLong2, map: map});
-    var marker3 = new google.maps.Marker({position:latLong3, map: map});
+    var iconBase = 'https://maps.google.com/mapfiles/ms/micons/';
+    var icons = {
+      bar: {
+        icon: iconBase + "bar.png"
+      },
+      cycling: {
+        icon: iconBase + "cycling.png"
+      }
+    };
+
+
+    // var goldStar = {
+    //     path: "M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z",
+    //     fillColor: "yellow",
+    //     fillOpacity: 0.8,
+    //     scale: 0.125,
+    //     strokeColor: "gold",
+    //     strokeWeight: 1
+    // };
+
+    var features = [
+        {
+            position: latLong, 
+            type: bar
+        }, {
+            position: latLong2, 
+            type: bar
+        }, {
+            position: latLong3, 
+            type: cycling
+        }
+    ]
+
+    features.forEach(function(feature) {
+        var marker = new google.maps.Marker({
+            position: feature.position,
+            icon: icons[feature.type].icon,
+            map: map
+        });
+        console.log("marker placed")
+    });
 
 }
 
@@ -123,7 +167,7 @@ function trailList() {
         var trailName = mtbObject.trails[i].name;
         console.log(trailName);
     }
-    alert("trails")
+    // alert("trails")
 }
 $(document).ready(function () {
     call();
