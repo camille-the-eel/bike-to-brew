@@ -7,7 +7,7 @@
 
 
 var mtbObject;
-var mapCtr = [];
+var mapCtr;
 function trailCall() {
     var queryURL = "https://www.mtbproject.com/data/get-trails?lat=37.5407&lon=-77.4360&maxDistance=2&key=200235024-32c4fc71813961608e163497918dd634";
 
@@ -29,7 +29,10 @@ function geoCall() {
     }).then(function (response) {
         var lat = response.location.lat;
         var long = response.location.lng;
-        mapCtr.push(lat, long);
+        mapCtr = {
+            lat: lat,
+            long: long
+        }
     })
 }
 function markerMap() {
