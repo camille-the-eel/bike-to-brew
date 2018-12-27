@@ -9,8 +9,10 @@
 var mtbObject;
 var mtbtrailInfoArr = [];
 
+var mapCtr;
+function trailCall() {
 // ajax calls
-function call() {
+
     var queryURL = "https://www.mtbproject.com/data/get-trails?lat=37.5407&lon=-77.4360&maxDistance=2&key=200235024-32c4fc71813961608e163497918dd634";
 
     $.ajax({
@@ -23,6 +25,21 @@ function call() {
     });
 }
 
+
+function geoCall() {
+    var queryURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8";
+    $.ajax({
+        url: queryURL,
+        method: "POST"
+    }).then(function (response) {
+        var lat = response.location.lat;
+        var long = response.location.lng;
+        mapCtr = {
+            lat: lat,
+            long: long
+        }
+    })
+}
 
 // functions:
 function markerMap() {
@@ -147,7 +164,8 @@ function trailList() {
 
 // document on ready
 $(document).ready(function () {
-    call();
+    trailCall();
+    geoCall();
 
     // end of doc ready
 });
