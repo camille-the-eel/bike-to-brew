@@ -9,10 +9,13 @@
 var mtbObject;
 var mtbtrailInfoArr = [];
 
+var mapCtr;
 
+function trailCall(lat, long) {
 // ajax calls
-function mtbCall(lat, lon) {
-    var queryURL = "https://www.mtbproject.com/data/get-trails?lat=37.5407&lon=-77.4360&maxDistance=2&key=200235024-32c4fc71813961608e163497918dd634";
+console.log("Lat & Long: " + lat, long)
+    // var queryURL = "https://www.mtbproject.com/data/get-trails?lat=37.5407&lon=-77.4360&maxDistance=2&key=200235024-32c4fc71813961608e163497918dd634";
+    var queryURL = "https://www.mtbproject.com/data/get-trails?lat=" + lat + "&lon=" + long + "&maxDistance=2&key=200235024-32c4fc71813961608e163497918dd634";
 
     $.ajax({
         url: queryURL,
@@ -24,6 +27,23 @@ function mtbCall(lat, lon) {
     });
 }
 
+
+function geoCall() {
+    var queryURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8";
+    $.ajax({
+        url: queryURL,
+        method: "POST"
+    }).then(function (response) {
+        var lat = response.location.lat;
+        var long = response.location.lng;
+        mapCtr = {
+            lat: lat,
+            long: long
+        };
+        trailCall(lat, long);
+        console.log(mapCtr);
+    })
+}
 
 // functions:
 function markerMap() {
@@ -126,7 +146,6 @@ function markerMap() {
 
 function trailList() {
     for (var i = 0; i < mtbObject.trails.length; i++) {
-        // console.log(trailName);
         var trailName = mtbObject.trails[i].name;
         var trailLat = mtbObject.trails[i].latitude;
         var trailLon = mtbObject.trails[i].longitude;
@@ -138,9 +157,7 @@ function trailList() {
             lon: trailLon
         }
         mtbtrailInfoArr.push(trailInfo);
-        // console.log (`MTB Arr: ` + mtbtrailInfoArr[i].name);
-        // console.log (`Trail Info: ` + JSON.stringify(mtbtrailInfoArr));
-        // console.log (`Trail ID: ` + mtbtrailInfoArr[i].ID);
+        console.log(trailInfo);
 
         var trailItem = $("<li>");
         var trailLink = $("<a href='" + mtbObject.trails[i].url + "'></a>");
@@ -153,7 +170,8 @@ function trailList() {
 
 // document on ready
 $(document).ready(function () {
-    mtbCall();
+    // trailCall();
+    geoCall();
 
     // end of doc ready
 });
