@@ -137,7 +137,7 @@ function markerMap() {
         }
     };
 
-    var mtbArray = [
+    var features = [
         {
             position: latLong, 
             type: "bar"
