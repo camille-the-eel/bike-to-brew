@@ -5,8 +5,11 @@
 
 // https://www.mtbproject.com/data/get-trails?lat=40.0274&lon=-105.2519&maxDistance=10&key=200235024-32c4fc71813961608e163497918dd634
 
+// global variables: 
+var mtbObject;
+var mtbtrailInfoArr = [];
 
-var mtbObject
+// ajax calls
 function call() {
     var queryURL = "https://www.mtbproject.com/data/get-trails?lat=37.5407&lon=-77.4360&maxDistance=2&key=200235024-32c4fc71813961608e163497918dd634";
 
@@ -20,6 +23,8 @@ function call() {
     });
 }
 
+
+// functions:
 function markerMap() {
 
     var latLong = {lat: 37.5407, lng: -77.4360};
@@ -120,8 +125,17 @@ function markerMap() {
 
 function trailList() {
     for (var i = 0; i < mtbObject.trails.length; i++) {
+        // console.log(trailName);
         var trailName = mtbObject.trails[i].name;
-        console.log(trailName);
+        var trailLat = mtbObject.trails[i].latitude;
+        var trailLon = mtbObject.trails[i].longitude;
+        var trailInfo = {
+            name: trailName,
+            lat: trailLat,
+            lon: trailLon
+        }
+        mtbtrailInfoArr.push(trailInfo);
+
         var trailItem = $("<li>")
         var trailLink = $("<a href='" + mtbObject.trails[i].url + "'></a>");
         trailLink.attr("target", "_blank");
@@ -130,6 +144,8 @@ function trailList() {
         $("#mtbList").append(trailItem);
     }
 }
+
+// document on ready
 $(document).ready(function () {
     call();
 
