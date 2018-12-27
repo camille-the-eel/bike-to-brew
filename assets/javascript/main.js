@@ -5,8 +5,12 @@
 
 // https://www.mtbproject.com/data/get-trails?lat=40.0274&lon=-105.2519&maxDistance=10&key=200235024-32c4fc71813961608e163497918dd634
 
+// global variables: 
+var mtbObject;
+var mtbtrailInfoArr = [];
+var map;
 
-var mtbObject
+// ajax calls
 function call() {
     var queryURL = "https://www.mtbproject.com/data/get-trails?lat=37.5407&lon=-77.4360&maxDistance=2&key=200235024-32c4fc71813961608e163497918dd634";
 
@@ -20,13 +24,16 @@ function call() {
     });
 }
 
+
+// functions:
 function markerMap() {
 
     var latLong = {lat: 37.5407, lng: -77.4360};
     var latLong2 = {lat: 37.5407, lng: -77.5360};
     var latLong3 = {lat: 37.5407, lng: -77.3360};
-    
-    var map = new google.maps.Map(
+        
+    // Creating Map (including style)
+    map = new google.maps.Map(
         document.getElementById("markerMap"), {
             zoom: 12, 
             center: latLong, 
@@ -115,39 +122,31 @@ function markerMap() {
                 elementType: "labels.text.stroke",
                 stylers: [{color: "#17263c"}]
             }
-        ]
-    });
+        ]   
     
+    }); 
+
+    // Calling 
     var iconBase = 'https://maps.google.com/mapfiles/ms/micons/';
     var icons = {
-      bar: {
+        bar: {
         icon: iconBase + "bar.png"
-      },
-      cycling: {
+        },
+        cycling: {
         icon: iconBase + "cycling.png"
-      }
+        }
     };
 
-
-    // var goldStar = {
-    //     path: "M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z",
-    //     fillColor: "yellow",
-    //     fillOpacity: 0.8,
-    //     scale: 0.125,
-    //     strokeColor: "gold",
-    //     strokeWeight: 1
-    // };
-
-    var features = [
+    var mtbArray = [
         {
             position: latLong, 
-            type: bar
+            type: "bar"
         }, {
             position: latLong2, 
-            type: bar
+            type: "bar"
         }, {
             position: latLong3, 
-            type: cycling
+            type: "cycling"
         }
     ]
 
@@ -161,14 +160,43 @@ function markerMap() {
     });
 
 }
+    
+    
+
+    // var goldStar = {
+    //     path: "M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z",
+    //     fillColor: "yellow",
+    //     fillOpacity: 0.8,
+    //     scale: 0.125,
+    //     strokeColor: "gold",
+    //     strokeWeight: 1
+    // };
+
 
 function trailList() {
     for (var i = 0; i < mtbObject.trails.length; i++) {
+        // console.log(trailName);
         var trailName = mtbObject.trails[i].name;
-        console.log(trailName);
+        var trailLat = mtbObject.trails[i].latitude;
+        var trailLon = mtbObject.trails[i].longitude;
+        var trailInfo = {
+            name: trailName,
+            lat: trailLat,
+            lon: trailLon
+        }
+        mtbtrailInfoArr.push(trailInfo);
+
+        var trailItem = $("<li>")
+        var trailLink = $("<a href='" + mtbObject.trails[i].url + "'></a>");
+        trailLink.attr("target", "_blank");
+        trailLink.text(trailName);
+        trailItem.append(trailLink);
+        $("#mtbList").append(trailItem);
     }
     // alert("trails")
 }
+
+// document on ready
 $(document).ready(function () {
     call();
 
