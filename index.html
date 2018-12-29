@@ -18,8 +18,20 @@
     
 
     <div class="testContent">
+        <div>
+            <form>
+                Enter Location:<br>
+                <input type="text" id="coordinateInput" name="location">
+                <input type="text" id="dist" name="location" value="5">
+                <button id="coordinateSubmit" type="submit">Search</button>
+            </form>
+        </div>
+        <!-- <div id="locationInfo"></div> -->
+
+
         <div id="mtbProjectData">
             <h3>MTB Project Data</h3>
+            <p>Search Distance: <span id="searchDist"></span> miles</p>
             <ul id="mtbList">
             </ul>
             <p id="mtbLatLong"></p>
@@ -38,8 +50,7 @@
 
 </body>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8&callback=markerMap">
-    </script><script src="assets/javascript/main.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8&callback=markerMap"></script>
+    <script src="assets/javascript/main.js"></script>
 </html>
 
