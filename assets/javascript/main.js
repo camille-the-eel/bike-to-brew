@@ -41,7 +41,7 @@ function geoCall() {
             long: long
         };
         trailCall(lat, long);
-        console.log(mapCtr);
+        console.log(" map center: " + mapCtr);
     })
 }
 
