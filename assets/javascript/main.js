@@ -19,8 +19,9 @@ function call() {
         method: "GET"
     }).then(function (response) {
         mtbObject = response;
-        console.log(mtbObject);
+        // console.log(mtbObject);
         trailList();
+        markerMap();
     });
 }
 
@@ -35,7 +36,7 @@ function markerMap() {
     // Creating Map (including style)
     map = new google.maps.Map(
         document.getElementById("markerMap"), {
-            zoom: 12, 
+            zoom: 8, 
             center: latLong, 
             styles: [
                 {elementType: "geometry", 
@@ -126,7 +127,7 @@ function markerMap() {
     
     }); 
 
-    // Calling 
+    // Calling icons from google icon library
     var iconBase = 'https://maps.google.com/mapfiles/ms/micons/';
     var icons = {
         bar: {
@@ -137,18 +138,28 @@ function markerMap() {
         }
     };
 
-    var features = [
-        {
-            position: latLong, 
-            type: "bar"
-        }, {
-            position: latLong2, 
-            type: "bar"
-        }, {
-            position: latLong3, 
+    var features = [];
+
+    for (i = 0; i < mtbtrailInfoArr.length; i++) {
+        // var mtbLatLng = [];
+        //     mtbLatLng.push(mtbtrailInfoArr[i].lat);
+        //     mtbLatLng.push(mtbtrailInfoArr[i].lon);
+        // console.log(mtbLatLng);
+        // mtbLocation.lat = mtbtrailInfoArr.trails[i].latitude;
+        // mtbLocation.lng = mtbtrailInfoArr.trails[i].longitude;
+        var position = mtbtrailInfoArr[i].lat + ", " + mtbtrailInfoArr[i].lon;
+        // console.log(position);
+
+        var mtbLocation = {
+            position: position,
             type: "cycling"
-        }
-    ]
+        };
+
+        features.push(mtbLocation);
+        console.log(mtbLocation);
+
+        
+    };
 
     features.forEach(function(feature) {
         var marker = new google.maps.Marker({
@@ -156,7 +167,7 @@ function markerMap() {
             icon: icons[feature.type].icon,
             map: map
         });
-        console.log("marker placed")
+        // console.log("marker placed")
     });
 
 }
@@ -194,11 +205,12 @@ function trailList() {
         $("#mtbList").append(trailItem);
     }
     // alert("trails")
+    // console.log(mtbtrailInfoArr);
 }
 
 // document on ready
 $(document).ready(function () {
     call();
-
+    
     // end of doc ready
 });
