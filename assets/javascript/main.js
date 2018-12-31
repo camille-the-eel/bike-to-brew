@@ -69,7 +69,9 @@ function trailCall(lat, long, dist) {
     }).then(function (response) {
         // mtbObject = response;
         // console.log(mtbObject);
-        trailList(response, dist);
+        let mtbObject = response.trails;
+        // console.log(mtbObject);
+        trailList(mtbObject, dist);
     });
 }
 
@@ -79,16 +81,19 @@ function foursquareCall(lat, long, dist){
     let clientSecret = "ML1MNNCBTE3LUQAYZRYLSKXHYYAMNRSKK4AE5YOWTTPEYMRN";
     // convert miles to meters because foursquare uses meters for radius
     let distMeters = dist * 1609.3;
-    let queryURL = "https://api.foursquare.com/v2/venues/explore?client_id=" + clientID + "&client_secret=" + clientSecret + "&v=20181223&limit=10&radius=" + distMeters + "&ll=" + lat + "," + long + "&query=brewery";
+    let v = 20181201
+    let queryURL = "https://api.foursquare.com/v2/venues/explore?client_id=" + clientID + "&client_secret=" + clientSecret + "&v=" + v + "&limit=10&radius=" + distMeters + "&ll=" + lat + "," + long + "&query=brewery";
+    // let queryURL = "https://api.foursquare.com/v2/venues/explore?client_id=" + clientID + "&client_secret=" + clientSecret + "&v=20181223&limit=10&radius=" + distMeters + "&ll=" + lat + "," + long + "&query=brewery";
     // let queryURL = "https://api.foursquare.com/v2/venues/explore?client_id=" + clientID + "&client_secret=" + clientSecret + "&v=20180323&limit=10&ll=" + lat + "," + long + "&query=brewery";
     // let queryURL = "https://api.foursquare.com/v2/venues/search?client_id=" + clientID + "&client_secret=" + clientSecret + "&limit=10&radius=" + dist + "&ll=" + lat + "," + long + "&query=brewery";
 
     $.ajax({
         url: queryURL,
         method: "get"
-    }).then(function (response) {
-        // breweryObject = response;
-        brewList(response, dist);
+    }).then(function (data) {
+        let breweryItems = data.response.groups[0].items;
+        // brewList(response, dist);
+        brewList(breweryItems, dist);
     })
 
 
@@ -198,11 +203,11 @@ function trailList(mtbObject, dist) {
     // let distItem = $("<li>").text("Search Distance: " + dist + " miles");
     // $("#searchDist").text(dist);
     $("#mtbList").empty();
-    for (var i = 0; i < mtbObject.trails.length; i++) {
-        var trailName = mtbObject.trails[i].name;
-        var trailLat = mtbObject.trails[i].latitude;
-        var trailLon = mtbObject.trails[i].longitude;
-        var trailID = mtbObject.trails[i].id;
+    for (var i = 0; i < mtbObject.length; i++) {
+        var trailName = mtbObject[i].name;
+        var trailLat = mtbObject[i].latitude;
+        var trailLon = mtbObject[i].longitude;
+        var trailID = mtbObject[i].id;
         var trailInfo = {
             name: trailName,
             ID: trailID,
@@ -212,7 +217,7 @@ function trailList(mtbObject, dist) {
         mtbtrailInfoArr.push(trailInfo);
 
         var trailItem = $("<li>");
-        var trailLink = $("<a href='" + mtbObject.trails[i].url + "'></a>");
+        var trailLink = $("<a href='" + mtbObject[i].url + "'></a>");
         trailLink.attr("target", "_blank");
         trailLink.text(trailName);
         trailItem.append(trailLink);
@@ -225,11 +230,12 @@ function brewList(breweryObject, dist) {
     // let distItem = $("<li>").text("Search Distance: " + dist + " miles");
     // $("#searchDist").text(dist);
     $("#breweryList").empty();
-    for (var i = 0; i < breweryObject.response.groups[0].items.length; i++) {
-        var breweryName = breweryObject.response.groups[0].items[i].venue.name;
-        var breweryLat = breweryObject.response.groups[0].items[i].venue.location.lat;
-        var breweryLon = breweryObject.response.groups[0].items[i].venue.location.lng;
-        var breweryID = breweryObject.response.groups[0].items[i].venue.id;
+    for (var i = 0; i < breweryObject.length; i++) {
+        var breweryName = breweryObject[i].venue.name;
+        var breweryLat = breweryObject[i].venue.location.lat;
+        var breweryLon = breweryObject[i].venue.location.lng;
+        var breweryID = breweryObject[i].venue.id;
+
         var breweryInfo = {
             name: breweryName,
             ID: breweryID,
@@ -240,10 +246,6 @@ function brewList(breweryObject, dist) {
         // console.log(breweryInfo);
 
         var brewItem = $("<li>").text(breweryName);
-        // var trailLink = $("<a href='" + mtbObject.trails[i].url + "'></a>");
-        // trailLink.attr("target", "_blank");
-        // trailLink.text(trailName);
-        // trailItem.append(trailLink);
         $("#breweryList").append(brewItem);
     }
     // console.log(breweryInfoArr)
