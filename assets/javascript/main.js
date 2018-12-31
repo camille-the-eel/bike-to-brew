@@ -14,11 +14,12 @@ var mtbtrailInfoArr = [];
 // var breweryObject;
 var breweryInfoArr = [];
 
-var mapCtr;
+// var mapCtr;
 // ajax calls
 
 // lat and longitude based on current user location
 function geoCall() {
+    
     var queryURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8";
     $.ajax({
         url: queryURL,
@@ -26,12 +27,14 @@ function geoCall() {
     }).then(function (response) {
         var lat = response.location.lat;
         var long = response.location.lng;
-        mapCtr = {
+        let mapCtr = {
             lat: lat,
-            long: long
+            lng: long
         };
         let dist = $("#dist").val();
-        // console.log("Dist: " + dist)
+        console.log(mapCtr)
+        $("#markerMap").empty();
+        markerMap(mapCtr)
         trailCall(lat, long, dist);
         foursquareCall(lat, long, dist);
         // console.log(mapCtr);
@@ -40,6 +43,7 @@ function geoCall() {
 
 // lat and lon based on zip code or other search parameters - provided by google api
 function coordinateCall(sParameter, dist) {
+   
     var queryURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + sParameter + "&key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8";
 
     $.ajax({
@@ -49,6 +53,12 @@ function coordinateCall(sParameter, dist) {
         // console.log(response);
         let lat = response.results[0].geometry.location.lat
         let lon = response.results[0].geometry.location.lng
+        let newLoc = {
+            lat: lat,
+            lng: lon
+        };
+        $("#markerMap").empty();
+        markerMap(newLoc)
         trailCall(lat, lon, dist);
         foursquareCall(lat, lon, dist);
         // let div = $("<div>").text("Query: " + sParameter + "  = Lat: " + lat + " Lon: " + lon)
@@ -100,7 +110,7 @@ function foursquareCall(lat, long, dist){
 }
 
 // functions:
-function markerMap() {
+function markerMap(mapCtr) {
 
     var latLong = {lat: 37.5407, lng: -77.4360};
     var latLong2 = {lat: 37.5407, lng: -77.5360};
@@ -109,7 +119,7 @@ function markerMap() {
     var map = new google.maps.Map(
         document.getElementById("markerMap"), {
             zoom: 12, 
-            center: latLong, 
+            center: mapCtr, 
             styles: [
                 {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
                 {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
@@ -248,7 +258,7 @@ function brewList(breweryObject, dist) {
         var brewItem = $("<li>").text(breweryName);
         $("#breweryList").append(brewItem);
     }
-    // console.log(breweryInfoArr)
+    console.log(breweryInfoArr)
 }
 
 // activates button click functionality
@@ -256,10 +266,15 @@ function buttonClick(){
     $("#coordinateSubmit").click(function(event){
         event.preventDefault();
         let x = $("#coordinateInput").val();
-        $("#coordinateInput").val("");
-        let d = $("#dist").val();
-        // console.log("dist: " + d)
-        coordinateCall(x, d);
+        if(x == ""){
+            geoCall();
+        }else{            
+            $("#coordinateInput").val("");
+            let d = $("#dist").val();
+            // console.log("dist: " + d)
+            coordinateCall(x, d);
+        }
+
     })
 }
 
