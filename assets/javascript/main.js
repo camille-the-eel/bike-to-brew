@@ -26,16 +26,16 @@ function geoCall() {
         method: "POST"
     }).then(function (response) {
         var lat = response.location.lat;
-        var long = response.location.lng;
+        var lon = response.location.lng;
         let mapCtr = {
             lat: lat,
-            lng: long
+            lng: lon
         };
         let dist = $("#dist").val();
-        console.log(mapCtr)
+        // console.log(mapCtr)
         $("#markerMap").empty();
         // markerMap(mapCtr)
-        trailCall(lat, long, dist, mapCtr);
+        trailCall(lat, lon, dist, mapCtr);
         // foursquareCall(lat, long, dist);
         // console.log(mapCtr);
     })
@@ -58,9 +58,10 @@ function coordinateCall(sParameter, dist) {
             lng: lon
         };
         $("#markerMap").empty();
-        markerMap(newLoc)
-        trailCall(lat, lon, dist);
-        foursquareCall(lat, lon, dist);
+        trailCall(lat, lon, dist, newLoc);
+        // markerMap(newLoc)
+        // trailCall(lat, lon, dist);
+        // foursquareCall(lat, lon, dist);
         // let div = $("<div>").text("Query: " + sParameter + "  = Lat: " + lat + " Lon: " + lon)
         // $("#locationInfo").append(div);
     });
@@ -147,7 +148,7 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
         }
         breweryInfoArr.push(breweryInfo);
     }
-    mapInfoArr = mtbInfoArr;
+    mapInfoArr = mtbInfoArr.concat(breweryInfoArr);
     trailList(mtbInfoArr, dist);
     brewList(breweryInfoArr, dist);
     markerMap(mapCtr, mapInfoArr);
@@ -159,14 +160,14 @@ function markerMap(mapCtr, mapInfoArr) {
     // console.log(mtbObject);
     // console.log(breweryList);
 
-    var latLong = {lat: 37.5407, lng: -77.4360};
-    var latLong2 = {lat: 37.5407, lng: -77.5360};
-    var latLong3 = {lat: 37.5407, lng: -77.3360};
+    // var latLong = {lat: 37.5407, lng: -77.4360};
+    // var latLong2 = {lat: 37.5407, lng: -77.5360};
+    // var latLong3 = {lat: 37.5407, lng: -77.3360};
     
     map = new google.maps.Map(
         document.getElementById("markerMap"), {
-            zoom: 8, 
-            center: latLong, 
+            zoom: 11, 
+            center: mapCtr, 
             styles: [
                 {elementType: "geometry", 
                 stylers: [{color: "#242f3e"}]
@@ -255,16 +256,26 @@ function markerMap(mapCtr, mapInfoArr) {
         ]   
     
     }); 
-    
+    var iconBase = 'https://maps.google.com/mapfiles/ms/micons/';
+    var icons = {
+        brewery: {
+        icon: iconBase + "bar.png"
+        },
+        trail: {
+        icon: iconBase + "cycling.png"
+        }
+    };
+    console.log(mapInfoArr)
     for(let i = 0; i < mapInfoArr.length; i++){
         let position = {lat: mapInfoArr[i].lat, lng: mapInfoArr[i].lon}
-        console.log(position);
-        let marker = new google.maps.Marker({position:position, map: map})
+        let type = mapInfoArr[i].type;
+        // console.log(type);
+        let marker = new google.maps.Marker({position:position, map: map, icon: icons[type].icon,})
     }
     
-    var marker = new google.maps.Marker({position:latLong, map: map});
-    var marker2 = new google.maps.Marker({position:latLong2, map: map});
-    var marker3 = new google.maps.Marker({position:latLong3, map: map});
+    // var marker = new google.maps.Marker({position:latLong, map: map});
+    // var marker2 = new google.maps.Marker({position:latLong2, map: map});
+    // var marker3 = new google.maps.Marker({position:latLong3, map: map});
 
 }
 
@@ -286,7 +297,7 @@ function trailList(mtbInfoArr, dist) {
         var trailName = mtbInfoArr[i].name;
         var trailLat = mtbInfoArr[i].latitude;
         var trailLon = mtbInfoArr[i].longitude;
-        var trailID = mtbInfoArr[i].id;
+        var trailID = mtbInfoArr[i].ID;
         var trailUrl = mtbInfoArr[i].tUrl 
         // var trailInfo = {
         //     name: trailName,
@@ -329,7 +340,7 @@ function brewList(breweryInfoArr, dist) {
         var brewItem = $("<li>").text(breweryName);
         $("#breweryList").append(brewItem);
     }
-    console.log(breweryInfoArr)
+    // console.log(breweryInfoArr)
 }
 
 // activates button click functionality
