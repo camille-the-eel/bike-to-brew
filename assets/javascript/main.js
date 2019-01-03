@@ -9,10 +9,10 @@
 
 // global variables: 
 // var mtbObject;
-var mtbtrailInfoArr = [];
+// var mtbtrailInfoArr = [];
 
 // var breweryObject;
-var breweryInfoArr = [];
+// var breweryInfoArr = [];
 
 // var mapCtr;
 // ajax calls
@@ -34,9 +34,9 @@ function geoCall() {
         let dist = $("#dist").val();
         console.log(mapCtr)
         $("#markerMap").empty();
-        markerMap(mapCtr)
-        trailCall(lat, long, dist);
-        foursquareCall(lat, long, dist);
+        // markerMap(mapCtr)
+        trailCall(lat, long, dist, mapCtr);
+        // foursquareCall(lat, long, dist);
         // console.log(mapCtr);
     })
 }
@@ -67,7 +67,7 @@ function coordinateCall(sParameter, dist) {
 }
 
 // calls mtb project for trails located within a defined radius
-function trailCall(lat, long, dist) {
+function trailCall(lat, long, dist, mapCtr) {
 // ajax calls
 // console.log("Lat & Long: " + lat, long)
     // var queryURL = "https://www.mtbproject.com/data/get-trails?lat=37.5407&lon=-77.4360&maxDistance=2&key=200235024-32c4fc71813961608e163497918dd634";
@@ -81,12 +81,13 @@ function trailCall(lat, long, dist) {
         // console.log(mtbObject);
         let mtbObject = response.trails;
         // console.log(mtbObject);
-        trailList(mtbObject, dist);
+        foursquareCall(lat, long, dist, mapCtr, mtbObject);
+
     });
 }
 
 // calls four square search for breweries based on lat and long and search radius
-function foursquareCall(lat, long, dist){
+function foursquareCall(lat, long, dist, mapCtr, mtbObject){
     let clientID = "AHO52TCU5VGZ15RXWQOXNCKIUADLG1IY2PSRTJKBIGVPPQTH";
     let clientSecret = "ML1MNNCBTE3LUQAYZRYLSKXHYYAMNRSKK4AE5YOWTTPEYMRN";
     // convert miles to meters because foursquare uses meters for radius
@@ -101,16 +102,62 @@ function foursquareCall(lat, long, dist){
         url: queryURL,
         method: "get"
     }).then(function (data) {
-        let breweryItems = data.response.groups[0].items;
-        // brewList(response, dist);
-        brewList(breweryItems, dist);
+        let breweryObject = data.response.groups[0].items;
+        // trailList(mtbObject, dist);
+        // brewList(breweryItems, dist);
+        // markerMap(mapCtr, mtbObject, breweryItems)
+        makeArrays(mapCtr, mtbObject, breweryObject, dist)
     })
 
 
 }
 
+function makeArrays(mapCtr, mtbObject, breweryObject){
+    var mtbInfoArr=[]
+    var breweryInfoArr=[]
+    for (var i = 0; i < mtbObject.length; i++) {
+        var trailName = mtbObject[i].name;
+        var trailLat = mtbObject[i].latitude;
+        var trailLon = mtbObject[i].longitude;
+        var trailID = mtbObject[i].id;
+        var trailUrl = mtbObject[i].url 
+        var trailInfo = {
+            name: trailName,
+            ID: trailID,
+            lat: trailLat,
+            lon: trailLon,
+            tUrl: trailUrl,
+            type: 'trail',
+        }
+        mtbInfoArr.push(trailInfo);
+    };
+
+    for (var i = 0; i < breweryObject.length; i++) {
+        var breweryName = breweryObject[i].venue.name;
+        var breweryLat = breweryObject[i].venue.location.lat;
+        var breweryLon = breweryObject[i].venue.location.lng;
+        var breweryID = breweryObject[i].venue.id;
+
+        var breweryInfo = {
+            name: breweryName,
+            ID: breweryID,
+            lat: breweryLat,
+            lon: breweryLon,
+            type: 'brewery',
+        }
+        breweryInfoArr.push(breweryInfo);
+    }
+    mapInfoArr = mtbInfoArr;
+    trailList(mtbInfoArr, dist);
+    brewList(breweryInfoArr, dist);
+    markerMap(mapCtr, mapInfoArr);
+
+}
+
 // functions:
-function markerMap(mapCtr) {
+function markerMap(mapCtr, mapInfoArr) {
+    // console.log(mtbObject);
+    // console.log(breweryList);
 
     var latLong = {lat: 37.5407, lng: -77.4360};
     var latLong2 = {lat: 37.5407, lng: -77.5360};
@@ -201,6 +248,12 @@ function markerMap(mapCtr) {
             }
         ]
     });
+
+    for(let i = 0; i < mapInfoArr.length; i++){
+        let position = {lat: mapInfoArr[i].lat, lng: mapInfoArr[i].lon}
+        console.log(position);
+        let marker = new google.maps.Marker({position:position, map: map})
+    }
     
     var marker = new google.maps.Marker({position:latLong, map: map});
     var marker2 = new google.maps.Marker({position:latLong2, map: map});
@@ -208,26 +261,37 @@ function markerMap(mapCtr) {
 
 }
 
+// function drawMapMarkers(){
+//     var latLong = {lat: 37.5407, lng: -77.4360};
+//     var latLong2 = {lat: 37.5407, lng: -77.5360};
+//     var latLong3 = {lat: 37.5407, lng: -77.3360};
+//     var marker = new google.maps.Marker({position:latLong, map: map});
+//     var marker2 = new google.maps.Marker({position:latLong2, map: map});
+//     var marker3 = new google.maps.Marker({position:latLong3, map: map});
+// };
+
 // receives info from mtb api, populates mtb array and updates DOM list of trails
-function trailList(mtbObject, dist) {
+function trailList(mtbInfoArr, dist) {
     // let distItem = $("<li>").text("Search Distance: " + dist + " miles");
     // $("#searchDist").text(dist);
     $("#mtbList").empty();
-    for (var i = 0; i < mtbObject.length; i++) {
-        var trailName = mtbObject[i].name;
-        var trailLat = mtbObject[i].latitude;
-        var trailLon = mtbObject[i].longitude;
-        var trailID = mtbObject[i].id;
-        var trailInfo = {
-            name: trailName,
-            ID: trailID,
-            lat: trailLat,
-            lon: trailLon
-        }
-        mtbtrailInfoArr.push(trailInfo);
+    for (var i = 0; i < mtbInfoArr.length; i++) {
+        var trailName = mtbInfoArr[i].name;
+        var trailLat = mtbInfoArr[i].latitude;
+        var trailLon = mtbInfoArr[i].longitude;
+        var trailID = mtbInfoArr[i].id;
+        var trailUrl = mtbInfoArr[i].tUrl 
+        // var trailInfo = {
+        //     name: trailName,
+        //     ID: trailID,
+        //     lat: trailLat,
+        //     lon: trailLon,
+        //     tUrl: trailUrl
+        // }
+        // mtbtrailInfoArr.push(trailInfo);
 
         var trailItem = $("<li>");
-        var trailLink = $("<a href='" + mtbObject[i].url + "'></a>");
+        var trailLink = $("<a href='" + trailUrl + "'></a>");
         trailLink.attr("target", "_blank");
         trailLink.text(trailName);
         trailItem.append(trailLink);
@@ -236,23 +300,23 @@ function trailList(mtbObject, dist) {
 }
 
 // receives info from foursquare applicationCache, populates brewery array and updates DOM list of breweries
-function brewList(breweryObject, dist) {
+function brewList(breweryInfoArr, dist) {
     // let distItem = $("<li>").text("Search Distance: " + dist + " miles");
     // $("#searchDist").text(dist);
     $("#breweryList").empty();
-    for (var i = 0; i < breweryObject.length; i++) {
-        var breweryName = breweryObject[i].venue.name;
-        var breweryLat = breweryObject[i].venue.location.lat;
-        var breweryLon = breweryObject[i].venue.location.lng;
-        var breweryID = breweryObject[i].venue.id;
+    for (var i = 0; i < breweryInfoArr.length; i++) {
+        var breweryName = breweryInfoArr[i].name;
+        // var breweryLat = breweryInfoArr[i].lat;
+        // var breweryLon = breweryInfoArr[i].lng;
+        // var breweryID = breweryInfoArr[i].ID;
 
-        var breweryInfo = {
-            name: breweryName,
-            ID: breweryID,
-            lat: breweryLat,
-            lon: breweryLon
-        }
-        breweryInfoArr.push(breweryInfo);
+        // var breweryInfo = {
+        //     name: breweryName,
+        //     ID: breweryID,
+        //     lat: breweryLat,
+        //     lon: breweryLon
+        // }
+        // breweryInfoArr.push(breweryInfo);
         // console.log(breweryInfo);
 
         var brewItem = $("<li>").text(breweryName);
