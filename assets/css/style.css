@@ -1,3 +1,11 @@
+#splashScreen{
+    background-color: orange;
+    height: 500px;
+}
+
+#appContent{
+    display:none;
+}
 #markerMap {
     height: 400px;
     width: 100%;

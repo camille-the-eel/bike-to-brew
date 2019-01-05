@@ -307,11 +307,19 @@ var distance = function(){
     };
     return d;
 }
+function splashScreen(){
+    setTimeout(function(){
+        $("#splashScreen").slideUp(500);
+        $("#appContent").fadeIn(1000);
+        geoCall(distance());; 
+    }, 1000);
+}
 
 // document on ready
 $(document).ready(function () {
     // trailCall();
-    geoCall(distance());
+    // geoCall(distance());
+    splashScreen();
     buttonClick();
     $('.dropdown-trigger').dropdown();
 
