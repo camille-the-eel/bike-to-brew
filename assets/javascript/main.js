@@ -114,6 +114,8 @@ function foursquareCall(lat, long, dist, mapCtr, mtbObject){
 }
 
 function makeArrays(mapCtr, mtbObject, breweryObject){
+    console.log(mtbObject);
+    console.log(breweryObject);
     var mtbInfoArr=[]
     var breweryInfoArr=[]
     for (var i = 0; i < mtbObject.length; i++) {
@@ -286,18 +288,11 @@ function markerMap(mapCtr, mapInfoArr) {
                 infowindow.setContent('<div>' + 
                 '<strong>' + this.title + '</strong><br>' +
                 '<a href=' + this.url + ' target="_blank">Trail Link</a><br>' + 
-                // '<p>' + this.url + '</p>' + 
                 '</div>')
-                    // 'Place ID: ' + place.place_id + '<br>' +
-                    // place.formatted_address + '</div>');
                 infowindow.open(map, this);
             }else{            infowindow.setContent('<div>' + 
             '<strong>' + this.title + '</strong><br>' +
-            // '<a href=' + this.url + ' target="_blank">Trail Link</a><br>' + 
-            // '<p>' + this.url + '</p>' + 
             '</div>')
-                // 'Place ID: ' + place.place_id + '<br>' +
-                // place.formatted_address + '</div>');
             infowindow.open(map, this);
             }
 
