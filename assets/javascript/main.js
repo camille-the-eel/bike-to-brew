@@ -266,11 +266,42 @@ function markerMap(mapCtr, mapInfoArr) {
         }
     };
     console.log(mapInfoArr)
+    var infowindow = new google.maps.InfoWindow();
     for(let i = 0; i < mapInfoArr.length; i++){
         let position = {lat: mapInfoArr[i].lat, lng: mapInfoArr[i].lon}
         let type = mapInfoArr[i].type;
+        let name = mapInfoArr[i].name;
+        let url = mapInfoArr[i].tUrl
         // console.log(type);
-        let marker = new google.maps.Marker({position:position, map: map, icon: icons[type].icon,})
+        let marker = new google.maps.Marker({position:position,
+            url: url,
+            title: name, 
+            type: type,
+            map: map, 
+            icon: icons[type].icon,})
+        google.maps.event.addListener(marker, 'click', function() {
+            console.log(this);
+            console.log(this.url);
+            if(this.type == "trail"){
+                infowindow.setContent('<div>' + 
+                '<strong>' + this.title + '</strong><br>' +
+                '<a href=' + this.url + ' target="_blank">Trail Link</a><br>' + 
+                // '<p>' + this.url + '</p>' + 
+                '</div>')
+                    // 'Place ID: ' + place.place_id + '<br>' +
+                    // place.formatted_address + '</div>');
+                infowindow.open(map, this);
+            }else{            infowindow.setContent('<div>' + 
+            '<strong>' + this.title + '</strong><br>' +
+            // '<a href=' + this.url + ' target="_blank">Trail Link</a><br>' + 
+            // '<p>' + this.url + '</p>' + 
+            '</div>')
+                // 'Place ID: ' + place.place_id + '<br>' +
+                // place.formatted_address + '</div>');
+            infowindow.open(map, this);
+            }
+
+        });
     }
     
     // var marker = new google.maps.Marker({position:latLong, map: map});
@@ -366,6 +397,7 @@ $(document).ready(function () {
     // trailCall();
     geoCall();
     buttonClick();
+    $('.dropdown-trigger').dropdown();
 
     // end of doc ready
 });
