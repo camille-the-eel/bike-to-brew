@@ -276,7 +276,10 @@ function brewList(breweryInfoArr) {
     $("#breweryList").empty();
     for (var i = 0; i < breweryInfoArr.length; i++) {
         var breweryName = breweryInfoArr[i].name;
-        var brewItem = $("<li>").text(breweryName);
+        // var brewItem = $("<li>").text(breweryName);
+        var brewItem = $("<li>");
+        var brewLink = $('<a href="#!">' + breweryName + '</a>');
+        brewItem.append(brewLink);
         $("#breweryList").append(brewItem);
     }
 }
@@ -291,6 +294,10 @@ function buttonClick(){
         }else{
             coordinateCall(x, distance());        
         }
+    })
+
+    $('.clearSearch').click(function(){
+        $('#coordinateInput').val("");
     })
 }
 
@@ -311,9 +318,11 @@ function splashScreen(){
     setTimeout(function(){
         $("#splashScreen").slideUp(500);
         $("#appContent").fadeIn(1000);
-        geoCall(distance());; 
+        geoCall(distance());
     }, 1000);
 }
+
+
 
 // document on ready
 $(document).ready(function () {
