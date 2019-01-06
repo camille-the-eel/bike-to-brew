@@ -255,7 +255,7 @@ function markerMap(mapCtr, mapInfoArr) {
 function trailList(mtbInfoArr) {
     // let distItem = $("<li>").text("Search Distance: " + dist + " miles");
     // $("#searchDist").text(dist);
-    $("#mtbList").empty();
+    $(".mtbList").empty();
     for (var i = 0; i < mtbInfoArr.length; i++) {
         var trailName = mtbInfoArr[i].name;
         var trailLat = mtbInfoArr[i].latitude;
@@ -267,20 +267,20 @@ function trailList(mtbInfoArr) {
         trailLink.attr("target", "_blank");
         trailLink.text(trailName);
         trailItem.append(trailLink);
-        $("#mtbList").append(trailItem);
+        $(".mtbList").append(trailItem);
     }
 }
 
 // receives info from foursquare applicationCache, populates brewery array and updates DOM list of breweries
 function brewList(breweryInfoArr) {
-    $("#breweryList").empty();
+    $(".breweryList").empty();
     for (var i = 0; i < breweryInfoArr.length; i++) {
         var breweryName = breweryInfoArr[i].name;
         // var brewItem = $("<li>").text(breweryName);
         var brewItem = $("<li>");
         var brewLink = $('<a href="#!">' + breweryName + '</a>');
         brewItem.append(brewLink);
-        $("#breweryList").append(brewItem);
+        $(".breweryList").append(brewItem);
     }
 }
 
@@ -331,6 +331,7 @@ $(document).ready(function () {
     splashScreen();
     buttonClick();
     $('.dropdown-trigger').dropdown();
+    $('.collapsible').collapsible();
 
     // end of doc ready
 });
