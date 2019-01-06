@@ -118,7 +118,7 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
 
 }
 
-// Draw google map with icons for trails and breweries
+// Draw google map with our specific styling - then calls function to add markers
 function markerMap(mapCtr, mapInfoArr) {
     map = new google.maps.Map(
         document.getElementById("markerMap"), {
@@ -212,6 +212,11 @@ function markerMap(mapCtr, mapInfoArr) {
         ]   
     
     }); 
+    addMarkers(mapInfoArr);
+}
+
+// draws the markers on the map, adds click event for info box pop up
+function addMarkers(mapInfoArr){
     var iconBase = 'https://maps.google.com/mapfiles/ms/micons/';
     var icons = {
         brewery: {
@@ -227,7 +232,8 @@ function markerMap(mapCtr, mapInfoArr) {
         let type = mapInfoArr[i].type;
         let name = mapInfoArr[i].name;
         let url = mapInfoArr[i].tUrl
-        let marker = new google.maps.Marker({position:position,
+        let marker = new google.maps.Marker({
+            position:position,
             url: url,
             title: name, 
             type: type,
@@ -240,15 +246,14 @@ function markerMap(mapCtr, mapInfoArr) {
                 '<a href=' + this.url + ' target="_blank">Trail Link</a><br>' + 
                 '</div>')
                 infowindow.open(map, this);
-            }else{            infowindow.setContent('<div>' + 
-            '<strong>' + this.title + '</strong><br>' +
-            '</div>')
-            infowindow.open(map, this);
+            }else{            
+                infowindow.setContent('<div>' + 
+                '<strong>' + this.title + '</strong><br>' +
+                '</div>')
+                infowindow.open(map, this);
             }
-
         });
     }
-    // var marker = new google.maps.Marker({position:latLong, map: map});
 }
 
 // receives info from mtb api, populates mtb array and updates DOM list of trails
