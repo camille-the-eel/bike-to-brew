@@ -44,6 +44,7 @@ function coordinateCall(sParameter, dist) {
         };
         // $("#markerMap").empty();
         trailCall(lat, lon, dist, newLoc);
+        map.panTo(newLoc);
     });
 }
 
