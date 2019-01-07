@@ -216,11 +216,11 @@ function markerMap(mapCtr, mapInfoArr) {
         ]   
     
     }); 
-    mapPan();
+    mapPanSearch();
 }
 
 // add button to map to re-do search based on loction of center of map
-function mapPan(){
+function mapPanSearch(){
     var searchControlDiv = document.createElement('div');
     var searchControl = new SearchControl(searchControlDiv, map);
 
@@ -311,7 +311,7 @@ function addMarkers(mapInfoArr){
                 '<strong>' + this.title + '</strong><br>' +
                 '<a href=' + this.url + ' target="_blank">Trail Link</a><br>' + 
                 '</div>' +
-                '<button class="btn waves-effect waves-light" type="button" name="action" class="trailDetails" onclick="trailDetails(' + this.id + ')">More Info</button>'
+                '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="trailDetails(' + this.id + ')">More Info</button>'
                 )
                 infowindow.open(map, this);
             }else{            
@@ -330,6 +330,8 @@ function trailList(mtbInfoArr) {
     // $("#searchDist").text(dist);
     $(".mtbList").empty();
     for (var i = 0; i < mtbInfoArr.length; i++) {
+        var trailLat = mtbInfoArr[i].lat;
+        var trailLon = mtbInfoArr[i].lon;
         var trailName = mtbInfoArr[i].name;
         var trailID = mtbInfoArr[i].ID;
         var trailUrl = mtbInfoArr[i].tUrl 
@@ -338,6 +340,8 @@ function trailList(mtbInfoArr) {
         var trailLink = $("<a href='#!'></a>");
         // trailLink.attr("target", "_blank");
         trailLink.attr("data-ID", trailID);
+        trailLink.attr("data-lat", trailLat);
+        trailLink.attr("data-lon", trailLon);
         trailLink.addClass('trailLink');
         trailLink.text(trailName);
         trailItem.append(trailLink);
@@ -384,8 +388,22 @@ function buttonClick(){
 
     $(document).on("click", ".trailLink", function(){
         let tID = $(this).attr("data-ID")
+        let tlat = $(this).attr("data-lat")
+        let tlon = $(this).attr("data-lon")
         trailDetails(tID);
+        panZoom(tlat, tlon)
     })
+}
+
+function panZoom(lat, lon){
+   lat = parseFloat(lat);
+   lon = parseFloat(lon);
+    let trailLoc = {
+        lat: lat,
+        lng: lon
+    };
+    map.panTo(trailLoc);
+    map.setZoom(14);
 }
 
 // distance input validation
@@ -401,6 +419,7 @@ var distance = function(){
     };
     return d;
 }
+
 // hides the splash screen after a set amount of time then shows the app
 function splashScreen(){
     setTimeout(function(){
