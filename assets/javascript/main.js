@@ -293,8 +293,10 @@ function addMarkers(mapInfoArr){
         let type = mapInfoArr[i].type;
         let name = mapInfoArr[i].name;
         let url = mapInfoArr[i].tUrl
+        let id = mapInfoArr[i].ID
         let marker = new google.maps.Marker({
             position:position,
+            id: id,
             url: url,
             title: name, 
             type: type,
@@ -307,7 +309,9 @@ function addMarkers(mapInfoArr){
                 infowindow.setContent('<div>' + 
                 '<strong>' + this.title + '</strong><br>' +
                 '<a href=' + this.url + ' target="_blank">Trail Link</a><br>' + 
-                '</div>')
+                '</div>' +
+                '<button class="btn waves-effect waves-light" type="button" name="action" class="trailDetails" onclick="trailDetails(' + this.id + ')">More Info</button>'
+                )
                 infowindow.open(map, this);
             }else{            
                 infowindow.setContent('<div>' + 
@@ -326,17 +330,26 @@ function trailList(mtbInfoArr) {
     $(".mtbList").empty();
     for (var i = 0; i < mtbInfoArr.length; i++) {
         var trailName = mtbInfoArr[i].name;
-        var trailLat = mtbInfoArr[i].latitude;
-        var trailLon = mtbInfoArr[i].longitude;
         var trailID = mtbInfoArr[i].ID;
         var trailUrl = mtbInfoArr[i].tUrl 
         var trailItem = $("<li>");
-        var trailLink = $("<a href='" + trailUrl + "'></a>");
-        trailLink.attr("target", "_blank");
+        // var trailLink = $("<a href='" + trailUrl + "'></a>");
+        var trailLink = $("<a href='#!'></a>");
+        // trailLink.attr("target", "_blank");
+        trailLink.attr("data-ID", trailID);
+        trailLink.addClass('trailLink');
         trailLink.text(trailName);
         trailItem.append(trailLink);
         $(".mtbList").append(trailItem);
     }
+}
+
+function trailDetails(trailId){
+    let trailWidget = $("<div>");
+    trailWidget.html('<iframe style="width:100%; max-width:1200px; height:410px;" frameborder="0" scrolling="no" src="https://www.mtbproject.com/widget?v=3&map=1&type=trail&id=' + trailId + '&x=-8622072&y=4510716&z=6"></iframe>')
+    $(".modal-content").empty();
+    $(".modal-content").append(trailWidget);
+$('#modal1').modal('open');
 }
 
 // receives info from foursquare applicationCache, populates brewery array and updates DOM list of breweries
@@ -367,6 +380,11 @@ function buttonClick(){
     $('.clearSearch').click(function(){
         $('#coordinateInput').val("");
     })
+
+    $(document).on("click", ".trailLink", function(){
+        let tID = $(this).attr("data-ID")
+        trailDetails(tID);
+    })
 }
 
 // distance input validation
@@ -382,7 +400,7 @@ var distance = function(){
     };
     return d;
 }
-
+// hides the splash screen after a set amount of time then shows the app
 function splashScreen(){
     setTimeout(function(){
         $("#splashScreen").slideUp(500);
@@ -401,6 +419,7 @@ $(document).ready(function () {
     splashScreen();
     $('.dropdown-trigger').dropdown();
     $('.collapsible').collapsible();
+    $('.modal').modal();
 
     // end of doc ready
 });
