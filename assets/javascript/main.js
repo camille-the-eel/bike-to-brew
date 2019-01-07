@@ -5,7 +5,8 @@
 
 // https://www.mtbproject.com/data/get-trails?lat=40.0274&lon=-105.2519&maxDistance=10&key=200235024-32c4fc71813961608e163497918dd634
 
-
+var map;
+var markers=[];
 
 // AJAX CALLS
 
@@ -24,6 +25,7 @@ function geoCall(dist) {
         };
         $("#markerMap").empty();
         trailCall(lat, lon, dist, mapCtr);
+        markerMap(mapCtr);
     })
 }
 
@@ -40,7 +42,7 @@ function coordinateCall(sParameter, dist) {
             lat: lat,
             lng: lon
         };
-        $("#markerMap").empty();
+        // $("#markerMap").empty();
         trailCall(lat, lon, dist, newLoc);
     });
 }
@@ -114,7 +116,8 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
     brewList(breweryInfoArr, dist);
     // combine the two arrays for sending to marker map
     mapInfoArr = mtbInfoArr.concat(breweryInfoArr);
-    markerMap(mapCtr, mapInfoArr);
+    // markerMap(mapCtr, mapInfoArr);
+    addMarkers(mapInfoArr);
 
 }
 
@@ -212,11 +215,69 @@ function markerMap(mapCtr, mapInfoArr) {
         ]   
     
     }); 
-    addMarkers(mapInfoArr);
+    mapPan();
 }
+
+// add button to map to re-do search based on loction of center of map
+function mapPan(){
+    var searchControlDiv = document.createElement('div');
+    var searchControl = new SearchControl(searchControlDiv, map);
+
+    searchControlDiv.index = 1;
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(searchControlDiv);
+}
+
+// search button settings
+function SearchControl(controlDiv, map) {
+
+    // Set CSS for the control border.
+    var controlUI = document.createElement('div');
+    controlUI.style.backgroundColor = '#fff';
+    controlUI.style.border = '2px solid #fff';
+    controlUI.style.borderRadius = '3px';
+    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+    controlUI.style.cursor = 'pointer';
+    controlUI.style.marginTop = '8px';
+    controlUI.style.textAlign = 'center';
+    controlUI.title = 'Click to redo search at center of map';
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the control interior.
+    var controlText = document.createElement('div');
+    controlText.style.color = 'rgb(25,25,25)';
+    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+    controlText.style.fontSize = '16px';
+    controlText.style.lineHeight = '38px';
+    controlText.style.paddingLeft = '5px';
+    controlText.style.paddingRight = '5px';
+    controlText.innerHTML = 'Redo Search';
+    controlUI.appendChild(controlText);
+
+    // Setup the click event listeners: simply set the map to Chicago.
+    controlUI.addEventListener('click', function() {
+        let newCtr = map.getCenter();
+        let lat = newCtr.lat();
+        let lon = newCtr.lng();
+        lat = parseFloat(lat.toFixed(5));
+        lon = parseFloat(lon.toFixed(5));
+        $("#coordinateInput").val(lat + ', ' + lon)
+        let newLoc = {
+            lat: lat,
+            lng: lon
+        };
+        let dist = distance();
+        trailCall(lat, lon, dist, newLoc);
+    });
+
+  }
 
 // draws the markers on the map, adds click event for info box pop up
 function addMarkers(mapInfoArr){
+    // this for loop clears all the markers from the map before drawing new ones
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+      }
+      markers = [];
     var iconBase = 'https://maps.google.com/mapfiles/ms/micons/';
     var icons = {
         brewery: {
@@ -238,7 +299,9 @@ function addMarkers(mapInfoArr){
             title: name, 
             type: type,
             map: map, 
-            icon: icons[type].icon,})
+            icon: icons[type].icon,
+        });
+        markers.push(marker);
         google.maps.event.addListener(marker, 'click', function() {
             if(this.type == "trail"){
                 infowindow.setContent('<div>' + 
@@ -319,10 +382,12 @@ var distance = function(){
     };
     return d;
 }
+
 function splashScreen(){
     setTimeout(function(){
         $("#splashScreen").slideUp(500);
         $("#appContent").fadeIn(1000);
+        buttonClick();
         geoCall(distance());
     }, 1000);
 }
@@ -334,7 +399,6 @@ $(document).ready(function () {
     // trailCall();
     // geoCall(distance());
     splashScreen();
-    buttonClick();
     $('.dropdown-trigger').dropdown();
     $('.collapsible').collapsible();
 
