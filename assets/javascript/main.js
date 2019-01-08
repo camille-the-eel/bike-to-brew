@@ -7,6 +7,7 @@
 
 var map;
 var markers=[];
+var infowindow;
 
 // AJAX CALLS
 
@@ -81,8 +82,9 @@ function foursquareCall(lat, long, dist, mapCtr, mtbObject){
 function makeArrays(mapCtr, mtbObject, breweryObject){
     var mtbInfoArr=[]
     var breweryInfoArr=[]
+    let i = 0
     // pull info from Mountain Bike Object
-    for (var i = 0; i < mtbObject.length; i++) {
+    for (i = 0; i < mtbObject.length; i++) {
         var trailName = mtbObject[i].name;
         var trailLat = mtbObject[i].latitude;
         var trailLon = mtbObject[i].longitude;
@@ -95,34 +97,37 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
             lon: trailLon,
             tUrl: trailUrl,
             type: 'trail',
+            dataIndex: i,
         }
         mtbInfoArr.push(trailInfo);
     };
     // pull info from brewery object
-    for (var i = 0; i < breweryObject.length; i++) {
-        var breweryName = breweryObject[i].venue.name;
-        var breweryLat = breweryObject[i].venue.location.lat;
-        var breweryLon = breweryObject[i].venue.location.lng;
-        var breweryID = breweryObject[i].venue.id;
+    for (var k = 0; k < breweryObject.length; k++) {
+        var breweryName = breweryObject[k].venue.name;
+        var breweryLat = breweryObject[k].venue.location.lat;
+        var breweryLon = breweryObject[k].venue.location.lng;
+        var breweryID = breweryObject[k].venue.id;
         var breweryInfo = {
             name: breweryName,
             ID: breweryID,
             lat: breweryLat,
             lon: breweryLon,
             type: 'brewery',
+            dataIndex: k + i,
         }
         breweryInfoArr.push(breweryInfo);
     }
-    trailList(mtbInfoArr, dist);
-    brewList(breweryInfoArr, dist);
+    trailList(mtbInfoArr);
+    brewList(breweryInfoArr);
     // combine the two arrays for sending to marker map
     mapInfoArr = mtbInfoArr.concat(breweryInfoArr);
     // markerMap(mapCtr, mapInfoArr);
+    console.log (mapInfoArr);
     addMarkers(mapInfoArr);
 
 }
 
-// Draw google map with our specific styling - then calls function to add markers
+// Draw google map with our specific styling
 function markerMap(mapCtr, mapInfoArr) {
     map = new google.maps.Map(
         document.getElementById("markerMap"), {
@@ -288,7 +293,7 @@ function addMarkers(mapInfoArr){
         icon: iconBase + "cycling.png"
         }
     };
-    var infowindow = new google.maps.InfoWindow();
+    infowindow = new google.maps.InfoWindow();
     for(let i = 0; i < mapInfoArr.length; i++){
         let position = {lat: mapInfoArr[i].lat, lng: mapInfoArr[i].lon}
         let type = mapInfoArr[i].type;
@@ -306,22 +311,10 @@ function addMarkers(mapInfoArr){
         });
         markers.push(marker);
         google.maps.event.addListener(marker, 'click', function() {
-            if(this.type == "trail"){
-                infowindow.setContent('<div>' + 
-                '<strong>' + this.title + '</strong><br>' +
-                '<a href=' + this.url + ' target="_blank">Trail Link</a><br>' + 
-                '</div>' +
-                '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="trailDetails(' + this.id + ')">More Info</button>'
-                )
-                infowindow.open(map, this);
-            }else{            
-                infowindow.setContent('<div>' + 
-                '<strong>' + this.title + '</strong><br>' +
-                '</div>')
-                infowindow.open(map, this);
-            }
+            infoWindowPopup(this);
         });
     }
+    // console.log(markers);
 }
 
 // receives info from mtb api, populates mtb array and updates DOM list of trails
@@ -330,19 +323,14 @@ function trailList(mtbInfoArr) {
     // $("#searchDist").text(dist);
     $(".mtbList").empty();
     for (var i = 0; i < mtbInfoArr.length; i++) {
-        var trailLat = mtbInfoArr[i].lat;
-        var trailLon = mtbInfoArr[i].lon;
         var trailName = mtbInfoArr[i].name;
         var trailID = mtbInfoArr[i].ID;
-        var trailUrl = mtbInfoArr[i].tUrl 
+        var trailIndex = mtbInfoArr[i].dataIndex;
         var trailItem = $("<li>");
-        // var trailLink = $("<a href='" + trailUrl + "'></a>");
         var trailLink = $("<a href='#!'></a>");
-        // trailLink.attr("target", "_blank");
         trailLink.attr("data-ID", trailID);
-        trailLink.attr("data-lat", trailLat);
-        trailLink.attr("data-lon", trailLon);
-        trailLink.addClass('trailLink');
+        trailLink.attr("data-index", trailIndex);
+        trailLink.addClass('listData');
         trailLink.text(trailName);
         trailItem.append(trailLink);
         $(".mtbList").append(trailItem);
@@ -362,9 +350,11 @@ function brewList(breweryInfoArr) {
     $(".breweryList").empty();
     for (var i = 0; i < breweryInfoArr.length; i++) {
         var breweryName = breweryInfoArr[i].name;
-        // var brewItem = $("<li>").text(breweryName);
+        var breweryIndex = breweryInfoArr[i].dataIndex;
         var brewItem = $("<li>");
         var brewLink = $('<a href="#!">' + breweryName + '</a>');
+        brewLink.attr("data-index", breweryIndex);
+        brewLink.addClass('listData');
         brewItem.append(brewLink);
         $(".breweryList").append(brewItem);
     }
@@ -386,23 +376,51 @@ function buttonClick(){
         $('#coordinateInput').val("");
     })
 
-    $(document).on("click", ".trailLink", function(){
+    $(document).on("click", ".listData", function(){
         let tID = $(this).attr("data-ID")
         let tlat = $(this).attr("data-lat")
         let tlon = $(this).attr("data-lon")
-        trailDetails(tID);
-        panZoom(tlat, tlon)
+        let markerIndex = $(this).attr("data-index") 
+        let marker = markers[markerIndex];
+        let latln = marker.getPosition();
+        let lat = latln.lat();
+        let lon = latln.lng();
+        console.log(latln);
+        // trailDetails(tID);
+        // panZoom(tlat, tlon)
+        panZoom(lat, lon)
+        // infowindow.open(map, marker);
+        infoWindowPopup(marker);
     })
 }
 
+// add info to the map marker info window
+function infoWindowPopup(marker){
+    if(marker.type == "trail"){
+        infowindow.setContent('<div>' + 
+        '<strong>' + marker.title + '</strong><br>' +
+        '</div>' +
+        '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="trailDetails(' + marker.id + ')">More Info</button>'
+        )
+        // infowindow.open(map, marker);
+    }else{            
+        infowindow.setContent('<div>' + 
+        '<strong>' + marker.title + '</strong><br>' +
+        '</div>')
+        // infowindow.open(map, marker);
+    }
+    infowindow.open(map, marker);
+}
+
+// pans map to map marker when selecting from one of the lists
 function panZoom(lat, lon){
    lat = parseFloat(lat);
    lon = parseFloat(lon);
-    let trailLoc = {
+    let markerLoc = {
         lat: lat,
         lng: lon
     };
-    map.panTo(trailLoc);
+    map.panTo(markerLoc);
     map.setZoom(14);
 }
 
