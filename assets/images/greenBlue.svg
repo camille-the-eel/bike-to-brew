@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.5.2 (25235) - http://www.bohemiancoding.com/sketch -->
+    <title>EasyInter</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="EasyInter" sketch:type="MSArtboardGroup">
+            <g id="Group" sketch:type="MSLayerGroup">
+                <rect id="Rectangle-4" fill="#0066CC" sketch:type="MSShapeGroup" x="0" y="0" width="44" height="44"></rect>
+                <circle id="Oval-1" stroke="#FFFFFF" stroke-width="2" fill="#A1C900" sketch:type="MSShapeGroup" cx="22" cy="22" r="15.4"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
