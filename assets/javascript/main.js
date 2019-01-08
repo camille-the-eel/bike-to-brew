@@ -222,6 +222,9 @@ function markerMap(mapCtr, mapInfoArr) {
     
     }); 
     mapPanSearch();
+    google.maps.event.addListener(map, "click", function(event) {
+        infowindow.close();
+    });
 }
 
 // add button to map to re-do search based on loction of center of map
@@ -314,7 +317,18 @@ function addMarkers(mapInfoArr){
             infoWindowPopup(this);
         });
     }
+    zoomExtents();
     // console.log(markers);
+}
+
+function zoomExtents(){
+        var bounds = new google.maps.LatLngBounds();
+        if (markers.length>0) { 
+            for (var i = 0; i < markers.length; i++) {
+               bounds.extend(markers[i].getPosition());
+              }    
+              map.fitBounds(bounds);
+          }
 }
 
 // receives info from mtb api, populates mtb array and updates DOM list of trails
@@ -337,6 +351,7 @@ function trailList(mtbInfoArr) {
     }
 }
 
+// open modal when trail details button is clicked
 function trailDetails(trailId){
     let trailWidget = $("<div>");
     trailWidget.html('<iframe style="width:100%; max-width:1200px; height:410px;" frameborder="0" scrolling="no" src="https://www.mtbproject.com/widget?v=3&map=1&type=trail&id=' + trailId + '&x=-8622072&y=4510716&z=6"></iframe>')
