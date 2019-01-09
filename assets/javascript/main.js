@@ -86,7 +86,6 @@ function placesCall(lat, lon, dist, mapCtr, mtbObject){
     var request = {
       location: searchCenter,
       radius: distMeters,
-    //   type: ['restaurant'],
       keyword: 'brewery',
       rankBy: google.maps.places.RankBy.PROMINENCE,
     };
@@ -155,7 +154,7 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
         var breweryName = breweryObject[k].name;
         var breweryLat = breweryObject[k].geometry.location.lat();
         var breweryLon = breweryObject[k].geometry.location.lng();
-        var breweryID = breweryObject[k].id;
+        var breweryID = breweryObject[k].place_id;
         var breweryInfo = {
             name: breweryName,
             ID: breweryID,
@@ -638,6 +637,28 @@ function trailDetails(trailId){
 $('#modal1').modal('open');
 }
 
+function breweryDetails(breweryId){
+  var request = {
+    placeId: breweryId,
+    fields: ['url', 'website']
+  };
+  console.log(request);
+
+  service = new google.maps.places.PlacesService(map);
+  service.getDetails(request, placeDetails);
+  function placeDetails(results, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+          console.log(results);
+          let bURL = results.website;
+          let breweryWidget = $("<div>");
+          breweryWidget.html('<iframe style="width:100%; max-width:500px; height:410px;" frameborder="0" scrolling="yes" src=" ' + bURL + ' "></iframe>')
+          $(".modal-content").empty();
+          $(".modal-content").append(breweryWidget);
+      $('#modal1').modal('open');
+      }
+    }
+}
+
 // receives info from foursquare applicationCache, populates brewery array and updates DOM list of breweries
 function brewList(breweryInfoArr) {
     $(".breweryList").empty();
@@ -692,10 +713,12 @@ function infoWindowPopup(marker){
         '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="trailDetails(' + marker.id + ')">More Info</button>'
         )
         // infowindow.open(map, marker);
-    }else{            
+    }else{   
+      let mID = marker.id   
         infowindow.setContent('<div>' + 
         '<strong>' + marker.title + '</strong><br>' +
-        '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails">More Info</button>' +
+        // '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(' + marker.id + ')">More Info</button>' +
+        '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(`' + mID + '`)">More Info</button>' +
         '</div>')
         // infowindow.open(map, marker);
     }
