@@ -13,13 +13,9 @@ var infowindow;
 
 // get lat and longitude based on current user location
 function geoCall(dist) {
-    var queryURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8";
-    $.ajax({
-        url: queryURL,
-        method: "POST"
-    }).then(function (response) {
-        var lat = response.location.lat;
-        var lon = response.location.lng;
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
         let mapCtr = {
             lat: lat,
             lng: lon
