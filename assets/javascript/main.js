@@ -14,13 +14,9 @@ var service;
 
 // get lat and longitude based on current user location
 function geoCall(dist) {
-    var queryURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8";
-    $.ajax({
-        url: queryURL,
-        method: "POST"
-    }).then(function (response) {
-        var lat = response.location.lat;
-        var lon = response.location.lng;
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
         let mapCtr = {
             lat: lat,
             lng: lon
@@ -58,7 +54,8 @@ function trailCall(lat, long, dist, mapCtr) {
         method: "GET"
     }).then(function (response) {
         let mtbObject = response.trails;
-        foursquareCall(lat, long, dist, mapCtr, mtbObject);
+        // foursquareCall(lat, long, dist, mapCtr, mtbObject);
+        placesCall(lat, long, dist, mapCtr, mtbObject);    
     });
 }
 
@@ -76,7 +73,6 @@ function foursquareCall(lat, long, dist, mapCtr, mtbObject){
     }).then(function (data) {
         let breweryObject = data.response.groups[0].items;
         makeArrays(mapCtr, mtbObject, breweryObject, dist)
-        placesCall(lat, long, dist )
     })
 }
 
@@ -96,22 +92,30 @@ function placesCall(lat, lon, dist, mapCtr, mtbObject){
     };
   
     service = new google.maps.places.PlacesService(map);
+    // service.nearbySearch(request, callback);
     service.nearbySearch(request, callback);
+    function callback(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            let breweryObject = results;
+            makeArrays(mapCtr, mtbObject, breweryObject, dist)
+        }
+      }
+
+
   }
   
-  function callback(results, status) {
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-        console.log(results)
-    //   for (var i = 0; i < results.length; i++) {
-    //     var place = results[i];
-    //     createMarker(results[i]);
-    //   }
-    }
-  }
-
+// function callback(results, status) {
+//     if (status == google.maps.places.PlacesServiceStatus.OK) {
+//     //   for (var i = 0; i < results.length; i++) {
+//     //     var place = results[i];
+//     //     createMarker(results[i]);
+//     //   }
+//     }
+//   }
 
 // pushes desired info from AJAX objects then calls list functions and marker map
 function makeArrays(mapCtr, mtbObject, breweryObject){
+    console.log(breweryObject);
     var mtbInfoArr=[]
     var breweryInfoArr=[]
     let i = 0
@@ -134,11 +138,24 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
         mtbInfoArr.push(trailInfo);
     };
     // pull info from brewery object
+    // for (var k = 0; k < breweryObject.length; k++) {
+    //     var breweryName = breweryObject[k].venue.name;
+    //     var breweryLat = breweryObject[k].venue.location.lat;
+    //     var breweryLon = breweryObject[k].venue.location.lng;
+    //     var breweryID = breweryObject[k].venue.id;
+    //     var breweryInfo = {
+    //         name: breweryName,
+    //         ID: breweryID,
+    //         lat: breweryLat,
+    //         lon: breweryLon,
+    //         type: 'brewery',
+    //         dataIndex: k + i,
+        // }
     for (var k = 0; k < breweryObject.length; k++) {
-        var breweryName = breweryObject[k].venue.name;
-        var breweryLat = breweryObject[k].venue.location.lat;
-        var breweryLon = breweryObject[k].venue.location.lng;
-        var breweryID = breweryObject[k].venue.id;
+        var breweryName = breweryObject[k].name;
+        var breweryLat = breweryObject[k].geometry.location.lat();
+        var breweryLon = breweryObject[k].geometry.location.lng();
+        var breweryID = breweryObject[k].id;
         var breweryInfo = {
             name: breweryName,
             ID: breweryID,
@@ -153,8 +170,6 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
     brewList(breweryInfoArr);
     // combine the two arrays for sending to marker map
     mapInfoArr = mtbInfoArr.concat(breweryInfoArr);
-    // markerMap(mapCtr, mapInfoArr);
-    // console.log (mapInfoArr);
     addMarkers(mapInfoArr);
 
 }
@@ -350,7 +365,6 @@ function addMarkers(mapInfoArr){
         });
     }
     zoomExtents();
-    // console.log(markers);
 }
 
 function zoomExtents(){
@@ -432,11 +446,7 @@ function buttonClick(){
         let latln = marker.getPosition();
         let lat = latln.lat();
         let lon = latln.lng();
-        // console.log(latln);
-        // trailDetails(tID);
-        // panZoom(tlat, tlon)
         panZoom(lat, lon)
-        // infowindow.open(map, marker);
         infoWindowPopup(marker);
     })
 }
@@ -453,6 +463,7 @@ function infoWindowPopup(marker){
     }else{            
         infowindow.setContent('<div>' + 
         '<strong>' + marker.title + '</strong><br>' +
+        '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails">More Info</button>' +
         '</div>')
         // infowindow.open(map, marker);
     }
