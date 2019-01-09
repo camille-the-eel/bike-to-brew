@@ -86,7 +86,6 @@ function placesCall(lat, lon, dist, mapCtr, mtbObject){
     var request = {
       location: searchCenter,
       radius: distMeters,
-    //   type: ['restaurant'],
       keyword: 'brewery',
       rankBy: google.maps.places.RankBy.PROMINENCE,
     };
@@ -155,7 +154,7 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
         var breweryName = breweryObject[k].name;
         var breweryLat = breweryObject[k].geometry.location.lat();
         var breweryLon = breweryObject[k].geometry.location.lng();
-        var breweryID = breweryObject[k].id;
+        var breweryID = breweryObject[k].place_id;
         var breweryInfo = {
             name: breweryName,
             ID: breweryID,
@@ -163,6 +162,7 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
             lon: breweryLon,
             type: 'brewery',
             dataIndex: k + i,
+            address: breweryObject[k].vicinity,
         }
         breweryInfoArr.push(breweryInfo);
     }
@@ -581,7 +581,8 @@ function addMarkers(mapInfoArr){
         let type = mapInfoArr[i].type;
         let name = mapInfoArr[i].name;
         let url = mapInfoArr[i].tUrl
-        let id = mapInfoArr[i].ID
+        let id = mapInfoArr[i].ID;
+        let address = mapInfoArr[i].address;
         let marker = new google.maps.Marker({
             position:position,
             id: id,
@@ -590,6 +591,7 @@ function addMarkers(mapInfoArr){
             type: type,
             map: map, 
             icon: icons[type].icon,
+            address: address,
         });
         markers.push(marker);
         google.maps.event.addListener(marker, 'click', function() {
@@ -632,10 +634,32 @@ function trailList(mtbInfoArr) {
 // open modal when trail details button is clicked
 function trailDetails(trailId){
     let trailWidget = $("<div>");
-    trailWidget.html('<iframe style="width:100%; max-width:1200px; height:410px;" frameborder="0" scrolling="no" src="https://www.mtbproject.com/widget?v=3&map=1&type=trail&id=' + trailId + '&x=-8622072&y=4510716&z=6"></iframe>')
+    trailWidget.html('<iframe style="width:100%; max-width:1200px; height:410px;" frameborder="0" scrolling="no" src="https://www.mtbproject.com/widget?v=3&map=1&type=trail&id=' + trailId + '&z=6"></iframe>')
     $(".modal-content").empty();
     $(".modal-content").append(trailWidget);
 $('#modal1').modal('open');
+}
+
+function breweryDetails(breweryId){
+  var request = {
+    placeId: breweryId,
+    fields: ['url', 'website']
+  };
+  console.log(request);
+
+  service = new google.maps.places.PlacesService(map);
+  service.getDetails(request, placeDetails);
+  function placeDetails(results, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+          console.log(results);
+          let bURL = results.website;
+          let breweryWidget = $("<div>");
+          breweryWidget.html('<iframe style="width:100%; max-width:800px; height:410px;" frameborder="0" scrolling="yes" src=" ' + bURL + ' "></iframe>')
+          $(".modal-content").empty();
+          $(".modal-content").append(breweryWidget);
+      $('#modal1').modal('open');
+      }
+    }
 }
 
 // receives info from foursquare applicationCache, populates brewery array and updates DOM list of breweries
@@ -692,10 +716,13 @@ function infoWindowPopup(marker){
         '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="trailDetails(' + marker.id + ')">More Info</button>'
         )
         // infowindow.open(map, marker);
-    }else{            
+    }else{   
+      let mID = marker.id   
         infowindow.setContent('<div>' + 
         '<strong>' + marker.title + '</strong><br>' +
-        '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails">More Info</button>' +
+        marker.address + '<br>' +
+        // '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(' + marker.id + ')">More Info</button>' +
+        '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(`' + mID + '`)">More Info</button>' +
         '</div>')
         // infowindow.open(map, marker);
     }
