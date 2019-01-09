@@ -15,6 +15,11 @@
     width: 100%;
 }
 
+#brewery-body{
+    max-height: 380px;
+    overflow: auto;
+}
+
 li :hover{
     color: red;
 }

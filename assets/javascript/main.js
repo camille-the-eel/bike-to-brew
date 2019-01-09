@@ -162,6 +162,7 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
             lon: breweryLon,
             type: 'brewery',
             dataIndex: k + i,
+            address: breweryObject[k].vicinity,
         }
         breweryInfoArr.push(breweryInfo);
     }
@@ -580,7 +581,8 @@ function addMarkers(mapInfoArr){
         let type = mapInfoArr[i].type;
         let name = mapInfoArr[i].name;
         let url = mapInfoArr[i].tUrl
-        let id = mapInfoArr[i].ID
+        let id = mapInfoArr[i].ID;
+        let address = mapInfoArr[i].address;
         let marker = new google.maps.Marker({
             position:position,
             id: id,
@@ -589,6 +591,7 @@ function addMarkers(mapInfoArr){
             type: type,
             map: map, 
             icon: icons[type].icon,
+            address: address,
         });
         markers.push(marker);
         google.maps.event.addListener(marker, 'click', function() {
@@ -631,7 +634,7 @@ function trailList(mtbInfoArr) {
 // open modal when trail details button is clicked
 function trailDetails(trailId){
     let trailWidget = $("<div>");
-    trailWidget.html('<iframe style="width:100%; max-width:1200px; height:410px;" frameborder="0" scrolling="no" src="https://www.mtbproject.com/widget?v=3&map=1&type=trail&id=' + trailId + '&x=-8622072&y=4510716&z=6"></iframe>')
+    trailWidget.html('<iframe style="width:100%; max-width:1200px; height:410px;" frameborder="0" scrolling="no" src="https://www.mtbproject.com/widget?v=3&map=1&type=trail&id=' + trailId + '&z=6"></iframe>')
     $(".modal-content").empty();
     $(".modal-content").append(trailWidget);
 $('#modal1').modal('open');
@@ -651,7 +654,7 @@ function breweryDetails(breweryId){
           console.log(results);
           let bURL = results.website;
           let breweryWidget = $("<div>");
-          breweryWidget.html('<iframe style="width:100%; max-width:500px; height:410px;" frameborder="0" scrolling="yes" src=" ' + bURL + ' "></iframe>')
+          breweryWidget.html('<iframe style="width:100%; max-width:800px; height:410px;" frameborder="0" scrolling="yes" src=" ' + bURL + ' "></iframe>')
           $(".modal-content").empty();
           $(".modal-content").append(breweryWidget);
       $('#modal1').modal('open');
@@ -717,6 +720,7 @@ function infoWindowPopup(marker){
       let mID = marker.id   
         infowindow.setContent('<div>' + 
         '<strong>' + marker.title + '</strong><br>' +
+        marker.address + '<br>' +
         // '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(' + marker.id + ')">More Info</button>' +
         '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(`' + mID + '`)">More Info</button>' +
         '</div>')
