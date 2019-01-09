@@ -351,7 +351,7 @@ function markerMap(mapCtr, mapInfoArr) {
                       color: "#fee3a7"
                     },
                     {
-                      lightness: -85
+                      lightness: -75
                     }
                   ]
                 },
@@ -566,7 +566,7 @@ function addMarkers(mapInfoArr){
         markers[i].setMap(null);
       }
       markers = [];
-    var iconBase = 'https://maps.google.com/mapfiles/ms/micons/';
+    var iconBase = "assets/images/";
     var icons = {
         brewery: {
         icon: iconBase + "bar.png"
