@@ -8,18 +8,15 @@
 var map;
 var markers=[];
 var infowindow;
+var service;
 
 // AJAX CALLS
 
 // get lat and longitude based on current user location
 function geoCall(dist) {
-    var queryURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8";
-    $.ajax({
-        url: queryURL,
-        method: "POST"
-    }).then(function (response) {
-        var lat = response.location.lat;
-        var lon = response.location.lng;
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
         let mapCtr = {
             lat: lat,
             lng: lon
@@ -57,7 +54,8 @@ function trailCall(lat, long, dist, mapCtr) {
         method: "GET"
     }).then(function (response) {
         let mtbObject = response.trails;
-        foursquareCall(lat, long, dist, mapCtr, mtbObject);
+        // foursquareCall(lat, long, dist, mapCtr, mtbObject);
+        placesCall(lat, long, dist, mapCtr, mtbObject);    
     });
 }
 
@@ -78,8 +76,45 @@ function foursquareCall(lat, long, dist, mapCtr, mtbObject){
     })
 }
 
+function placesCall(lat, lon, dist, mapCtr, mtbObject){
+    let distMeters = dist * 1609.3;
+    let searchCenter= {
+        lat: lat,
+        lng: lon
+    };
+
+    var request = {
+      location: searchCenter,
+      radius: distMeters,
+      keyword: 'brewery',
+      rankBy: google.maps.places.RankBy.PROMINENCE,
+    };
+  
+    service = new google.maps.places.PlacesService(map);
+    // service.nearbySearch(request, callback);
+    service.nearbySearch(request, callback);
+    function callback(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            let breweryObject = results;
+            makeArrays(mapCtr, mtbObject, breweryObject, dist)
+        }
+      }
+
+
+  }
+  
+// function callback(results, status) {
+//     if (status == google.maps.places.PlacesServiceStatus.OK) {
+//     //   for (var i = 0; i < results.length; i++) {
+//     //     var place = results[i];
+//     //     createMarker(results[i]);
+//     //   }
+//     }
+//   }
+
 // pushes desired info from AJAX objects then calls list functions and marker map
 function makeArrays(mapCtr, mtbObject, breweryObject){
+    console.log(breweryObject);
     var mtbInfoArr=[]
     var breweryInfoArr=[]
     let i = 0
@@ -102,11 +137,24 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
         mtbInfoArr.push(trailInfo);
     };
     // pull info from brewery object
+    // for (var k = 0; k < breweryObject.length; k++) {
+    //     var breweryName = breweryObject[k].venue.name;
+    //     var breweryLat = breweryObject[k].venue.location.lat;
+    //     var breweryLon = breweryObject[k].venue.location.lng;
+    //     var breweryID = breweryObject[k].venue.id;
+    //     var breweryInfo = {
+    //         name: breweryName,
+    //         ID: breweryID,
+    //         lat: breweryLat,
+    //         lon: breweryLon,
+    //         type: 'brewery',
+    //         dataIndex: k + i,
+        // }
     for (var k = 0; k < breweryObject.length; k++) {
-        var breweryName = breweryObject[k].venue.name;
-        var breweryLat = breweryObject[k].venue.location.lat;
-        var breweryLon = breweryObject[k].venue.location.lng;
-        var breweryID = breweryObject[k].venue.id;
+        var breweryName = breweryObject[k].name;
+        var breweryLat = breweryObject[k].geometry.location.lat();
+        var breweryLon = breweryObject[k].geometry.location.lng();
+        var breweryID = breweryObject[k].place_id;
         var breweryInfo = {
             name: breweryName,
             ID: breweryID,
@@ -114,6 +162,7 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
             lon: breweryLon,
             type: 'brewery',
             dataIndex: k + i,
+            address: breweryObject[k].vicinity,
         }
         breweryInfoArr.push(breweryInfo);
     }
@@ -121,8 +170,6 @@ function makeArrays(mapCtr, mtbObject, breweryObject){
     brewList(breweryInfoArr);
     // combine the two arrays for sending to marker map
     mapInfoArr = mtbInfoArr.concat(breweryInfoArr);
-    // markerMap(mapCtr, mapInfoArr);
-    console.log (mapInfoArr);
     addMarkers(mapInfoArr);
 
 }
@@ -134,91 +181,329 @@ function markerMap(mapCtr, mapInfoArr) {
             zoom: 11, 
             center: mapCtr, 
             styles: [
-                {elementType: "geometry", 
-                stylers: [{color: "#242f3e"}]
-                },
-                {elementType: "labels.text.stroke", 
-                stylers: [{color: "#242f3e"}]
-                },
-                {elementType: "labels.text.fill", 
-                stylers: [{color: "#746855"}]
+                {
+                  elementType: "geometry",
+                  stylers: [
+                    {
+                      color: "#19480d"
+                    }
+                  ]
                 },
                 {
-                featureType: "administrative.locality",
-                elementType: "labels.text.fill",
-                stylers: [{color: "#d59563"}]
+                  elementType: "labels.text.fill",
+                  stylers: [
+                    {
+                      color: "#ffffff"
+                    }
+                  ]
                 },
                 {
-                featureType: "poi",
-                elementType: "labels.text.fill",
-                stylers: [{visibility: "off"}]
+                  elementType: "labels.text.stroke",
+                  stylers: [
+                    {
+                      color: "#60371f"
+                    },
+                    {
+                      lightness: -25
+                    }
+                  ]
                 },
                 {
-                featureType: "poi.park",
-                elementType: "geometry",
-                stylers: [{color: "#263c3f"}]
+                  featureType: "administrative",
+                  elementType: "geometry.stroke",
+                  stylers: [
+                    {
+                      color: "#c9b2a6"
+                    }
+                  ]
                 },
                 {
-                featureType: "poi.park",
-                elementType: "labels.text.fill",
-                stylers: [{visibility: "off"}]
+                  featureType: "administrative.land_parcel",
+                  stylers: [
+                    {
+                      visibility: "off"
+                    }
+                  ]
                 },
                 {
-                featureType: "road",
-                elementType: "geometry",
-                stylers: [{color: "#38414e"}]
+                  featureType: "administrative.land_parcel",
+                  elementType: "geometry.stroke",
+                  stylers: [
+                    {
+                      color: "#dcd2be"
+                    }
+                  ]
                 },
                 {
-                featureType: "road",
-                elementType: "geometry.stroke",
-                stylers: [{color: "#212a37"}]
+                  featureType: "administrative.land_parcel",
+                  elementType: "labels.text.fill",
+                  stylers: [
+                    {
+                      color: "#ae9e90"
+                    }
+                  ]
                 },
                 {
-                featureType: "road",
-                elementType: "labels.text.fill",
-                stylers: [{color: "#9ca5b3"}]
+                  featureType: "administrative.neighborhood",
+                  stylers: [
+                    {
+                      visibility: "off"
+                    }
+                  ]
                 },
                 {
-                featureType: "road.highway",
-                elementType: "geometry",
-                stylers: [{color: "#746855"}]
+                  featureType: "landscape.natural",
+                  elementType: "geometry",
+                  stylers: [
+                    {
+                      color: "#19480d"
+                    }
+                  ]
                 },
                 {
-                featureType: "road.highway",
-                elementType: "geometry.stroke",
-                stylers: [{color: "#1f2835"}]
+                  featureType: "poi",
+                  elementType: "geometry",
+                  stylers: [
+                    {
+                      color: "#19480d"
+                    }
+                  ]
                 },
                 {
-                featureType: "road.highway",
-                elementType: "labels.text.fill",
-                stylers: [{color: "#f3d19c"}]
+                  featureType: "poi",
+                  elementType: "labels.text",
+                  stylers: [
+                    {
+                      visibility: "off"
+                    }
+                  ]
                 },
                 {
-                featureType: "transit",
-                elementType: "geometry",
-                stylers: [{visibility: "off"}]
+                  featureType: "poi",
+                  elementType: "labels.text.fill",
+                  stylers: [
+                    {
+                      color: "#93817c"
+                    }
+                  ]
                 },
                 {
-                featureType: "transit.station",
-                elementType: "labels.text.fill",
-                stylers: [{visibility: "off"}]
+                  featureType: "poi.business",
+                  stylers: [
+                    {
+                      visibility: "off"
+                    }
+                  ]
                 },
                 {
-                featureType: "water",
-                elementType: "geometry",
-                stylers: [{color: "#17263c"}]
+                  featureType: "poi.park",
+                  elementType: "geometry.fill",
+                  stylers: [
+                    {
+                      color: "#60371f"
+                    },
+                    {
+                      lightness: -45
+                    }
+                  ]
                 },
                 {
-                featureType: "water",
-                elementType: "labels.text.fill",
-                stylers: [{color: "#515c6d"}]
+                  featureType: "poi.park",
+                  elementType: "labels.text.fill",
+                  stylers: [
+                    {
+                      color: "#447530"
+                    }
+                  ]
                 },
                 {
-                featureType: "water",
-                elementType: "labels.text.stroke",
-                stylers: [{color: "#17263c"}]
-            }
-        ]   
+                  featureType: "road",
+                  elementType: "geometry",
+                  stylers: [
+                    {
+                      color: "#f5f1e6"
+                    }
+                  ]
+                },
+                {
+                  featureType: "road",
+                  elementType: "labels",
+                  stylers: [
+                    {
+                      visibility: "off"
+                    }
+                  ]
+                },
+                {
+                  featureType: "road",
+                  elementType: "labels.icon",
+                  stylers: [
+                    {
+                      visibility: "off"
+                    }
+                  ]
+                },
+                {
+                  featureType: "road.arterial",
+                  elementType: "geometry",
+                  stylers: [
+                    {
+                      color: "#fee3a7"
+                    },
+                    {
+                      lightness: -75
+                    }
+                  ]
+                },
+                {
+                  featureType: "road.arterial",
+                  elementType: "labels",
+                  stylers: [
+                    {
+                      visibility: "off"
+                    }
+                  ]
+                },
+                {
+                  featureType: "road.highway",
+                  elementType: "geometry",
+                  stylers: [
+                    {
+                      color: "#a36301"
+                    }
+                  ]
+                },
+                {
+                  featureType: "road.highway",
+                  elementType: "geometry.stroke",
+                  stylers: [
+                    {
+                      color: "#a36301"
+                    }
+                  ]
+                },
+                {
+                  featureType: "road.highway",
+                  elementType: "labels",
+                  stylers: [
+                    {
+                      visibility: "off"
+                    }
+                  ]
+                },
+                {
+                  featureType: "road.highway.controlled_access",
+                  elementType: "geometry",
+                  stylers: [
+                    {
+                      color: "#e9a502"
+                    }
+                  ]
+                },
+                {
+                  featureType: "road.highway.controlled_access",
+                  elementType: "geometry.stroke",
+                  stylers: [
+                    {
+                      color: "#bd8502"
+                    }
+                  ]
+                },
+                {
+                  featureType: "road.local",
+                  stylers: [
+                    {
+                      color: "#fee3a7"
+                    },
+                    {
+                      lightness: -70
+                    },
+                    {
+                      weight: 0.5
+                    }
+                  ]
+                },
+                {
+                  featureType: "road.local",
+                  elementType: "labels.text.fill",
+                  stylers: [
+                    {
+                      color: "#806b63"
+                    }
+                  ]
+                },
+                {
+                  featureType: "transit",
+                  stylers: [
+                    {
+                      visibility: "off"
+                    }
+                  ]
+                },
+                {
+                  featureType: "transit.line",
+                  elementType: "geometry",
+                  stylers: [
+                    {
+                      color: "#dfd2ae"
+                    }
+                  ]
+                },
+                {
+                  featureType: "transit.line",
+                  elementType: "labels.text.fill",
+                  stylers: [
+                    {
+                      color: "#8f7d77"
+                    }
+                  ]
+                },
+                {
+                  featureType: "transit.line",
+                  elementType: "labels.text.stroke",
+                  stylers: [
+                    {
+                      color: "#ebe3cd"
+                    }
+                  ]
+                },
+                {
+                  featureType: "transit.station",
+                  elementType: "geometry",
+                  stylers: [
+                    {
+                      color: "#dfd2ae"
+                    }
+                  ]
+                },
+                {
+                  featureType: "water",
+                  elementType: "geometry.fill",
+                  stylers: [
+                    {
+                      color: "#24bfe2"
+                    }
+                  ]
+                },
+                {
+                  featureType: "water",
+                  elementType: "labels.text",
+                  stylers: [
+                    {
+                      visibility: "off"
+                    }
+                  ]
+                },
+                {
+                  featureType: "water",
+                  elementType: "labels.text.fill",
+                  stylers: [
+                    {
+                      color: "#92998d"
+                    }
+                  ]
+                }
+              ] 
     
     }); 
     mapPanSearch();
@@ -287,7 +572,7 @@ function addMarkers(mapInfoArr){
         markers[i].setMap(null);
       }
       markers = [];
-    var iconBase = 'https://maps.google.com/mapfiles/ms/micons/';
+    var iconBase = "assets/images/";
     var icons = {
         brewery: {
         icon: iconBase + "bar.png"
@@ -302,7 +587,8 @@ function addMarkers(mapInfoArr){
         let type = mapInfoArr[i].type;
         let name = mapInfoArr[i].name;
         let url = mapInfoArr[i].tUrl
-        let id = mapInfoArr[i].ID
+        let id = mapInfoArr[i].ID;
+        let address = mapInfoArr[i].address;
         let marker = new google.maps.Marker({
             position:position,
             id: id,
@@ -311,6 +597,7 @@ function addMarkers(mapInfoArr){
             type: type,
             map: map, 
             icon: icons[type].icon,
+            address: address,
         });
         markers.push(marker);
         google.maps.event.addListener(marker, 'click', function() {
@@ -318,7 +605,6 @@ function addMarkers(mapInfoArr){
         });
     }
     zoomExtents();
-    // console.log(markers);
 }
 
 function zoomExtents(){
@@ -354,10 +640,32 @@ function trailList(mtbInfoArr) {
 // open modal when trail details button is clicked
 function trailDetails(trailId){
     let trailWidget = $("<div>");
-    trailWidget.html('<iframe style="width:100%; max-width:1200px; height:410px;" frameborder="0" scrolling="no" src="https://www.mtbproject.com/widget?v=3&map=1&type=trail&id=' + trailId + '&x=-8622072&y=4510716&z=6"></iframe>')
+    trailWidget.html('<iframe style="width:100%; max-width:1200px; height:410px;" frameborder="0" scrolling="no" src="https://www.mtbproject.com/widget?v=3&map=1&type=trail&id=' + trailId + '&z=6"></iframe>')
     $(".modal-content").empty();
     $(".modal-content").append(trailWidget);
 $('#modal1').modal('open');
+}
+
+function breweryDetails(breweryId){
+  var request = {
+    placeId: breweryId,
+    fields: ['url', 'website']
+  };
+  console.log(request);
+
+  service = new google.maps.places.PlacesService(map);
+  service.getDetails(request, placeDetails);
+  function placeDetails(results, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+          console.log(results);
+          let bURL = results.website;
+          let breweryWidget = $("<div>");
+          breweryWidget.html('<iframe style="width:100%; max-width:800px; height:410px;" frameborder="0" scrolling="yes" src=" ' + bURL + ' "></iframe>')
+          $(".modal-content").empty();
+          $(".modal-content").append(breweryWidget);
+      $('#modal1').modal('open');
+      }
+    }
 }
 
 // receives info from foursquare applicationCache, populates brewery array and updates DOM list of breweries
@@ -400,11 +708,7 @@ function buttonClick(){
         let latln = marker.getPosition();
         let lat = latln.lat();
         let lon = latln.lng();
-        console.log(latln);
-        // trailDetails(tID);
-        // panZoom(tlat, tlon)
         panZoom(lat, lon)
-        // infowindow.open(map, marker);
         infoWindowPopup(marker);
     })
 }
@@ -418,9 +722,13 @@ function infoWindowPopup(marker){
         '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="trailDetails(' + marker.id + ')">More Info</button>'
         )
         // infowindow.open(map, marker);
-    }else{            
+    }else{   
+      let mID = marker.id   
         infowindow.setContent('<div>' + 
         '<strong>' + marker.title + '</strong><br>' +
+        marker.address + '<br>' +
+        // '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(' + marker.id + ')">More Info</button>' +
+        '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(`' + mID + '`)">More Info</button>' +
         '</div>')
         // infowindow.open(map, marker);
     }
