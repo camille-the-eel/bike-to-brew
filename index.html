@@ -33,25 +33,25 @@
 
             <div class="row" id="header">
                 
-                <img class="col s1 l2" id="contentLogo" src="assets/images/b2b_logo.png">
+                <img class="col s2 l1" id="contentLogo" src="assets/images/b2b_logo.png">
 
-                <form class="col s11 m10 l10 xl10">
+                <form class="col s10 l11">
         
                     <div class="row">
         
-                        <div class="input-field col s5 l8">
-                            <input placeholder="Location" id="coordinateInput" type="search">
+                        <div class="input-field col s5 m9">
+                            <input placeholder="Enter City, Zip Code, Trail Name, or Brewery" id="coordinateInput" type="search">
                             <i class="material-icons clearSearch">close</i>
-                            <label for="Location">Enter Location</label>
+                            <!-- <label for="Location">Enter Location</label> -->
                         </div>
         
-                        <div class="input-field col s5 l2">
+                        <div class="input-field col s5 m2">
                             <input id="dist" type="number" value="5" min="1" max="50">
-                            <label for="dist">Search Radius</label>
+                            <!-- <label for="dist">Search Radius</label> -->
                         </div>
         
-                        <button class="col l2 btn waves-effect waves-light" type="submit" name="action" id="coordinateSubmit">Search
-                            <i class="material-icons right">send</i>
+                        <button class="col btn waves-effect waves-light" type="submit" name="action" id="coordinateSubmit">
+                            <i class="material-icons search">search</i>
                         </button>
         
                     </div>
@@ -82,32 +82,6 @@
             <div class='row'>
         
                 <!-- collaspible columns that are hidden on sizes medium and smaller -->
-                <div class = "col  hide-on-med-and-down s4">
-        
-                    <ul class="collapsible popout">
-        
-                        <li>
-        
-                            <div class="collapsible-header"><i class="material-icons">landscape</i>Trails</div>
-        
-                            <div class="collapsible-body">
-                                <ul class='mtbList'></ul>
-                            </div>
-        
-                        </li>
-        
-                        <li>
-        
-                            <div class="collapsible-header"><i class="material-icons">local_drink</i>Breweries</div>
-        
-                            <div class="collapsible-body" id = "brewery-body">
-                                    <ul class='breweryList'></ul>
-        
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-        
                 <div class='col s12 m12 l8 center-align'>
 
                     <div id="googleMapsMarkers">
@@ -115,6 +89,33 @@
 
                     </div>
                 </div>
+        
+                <div class = "col  hide-on-med-and-down l4">
+        
+                    <ul class="col" id="searchResults">
+        
+                        <li>
+        
+                            <div class="col l12 searchHeader">Trails</div>
+        
+                            <div class="col searchList">
+                                <ul class='mtbList'></ul>
+                            </div>
+        
+                        </li>
+        
+                        <li>
+        
+                            <div class="col l12 searchHeader">Breweries</div>
+        
+                            <div class="col searchList" id = "brewery-body">
+                                    <ul class='breweryList'></ul>
+        
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+        
             </div>
         </div>
     </div>    

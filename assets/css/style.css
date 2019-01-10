@@ -20,14 +20,64 @@ body {
     margin-top: 60px;
 }
 
-form {
+#contentLogo {
+    max-height: 180px;
+    max-width: 100%;
+}
+
+#header {
     /* vertical-align: center; */
-    margin-top: 5%;
+    position: relative;
+    bottom: 0px;
+    height: fit-content;
+}
+
+#coordinateInput {
+    background-color: transparent;
+}
+
+form {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: 45px;
+    position: relative;
+    bottom: 0px;
+}
+
+label {
+    color: #ffffff;
+}
+
+.input-field {
+    color: #ffffff;
+    margin-top: 0px;
+}
+
+.input-field>label {
+    color: #ffffff;
+}
+
+#coordinateSubmit {
+    background-color: #4A2C1A;
 }
 
 #markerMap {
     height: 450px;
     width: 100%;
+}
+
+#searchResults {
+    margin: 0px;
+}
+
+.searchHeader {
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #4A2C1A;
+}
+
+.searchList {
+    background-color: #a36301;
 }
 
 #brewery-body{
