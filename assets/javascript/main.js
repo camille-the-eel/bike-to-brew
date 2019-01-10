@@ -520,6 +520,8 @@ function SearchControl(controlDiv, map) {
   controlUI.style.marginTop = '8px';
   controlUI.style.textAlign = 'center';
   controlUI.title = 'Click to redo search at center of map';
+  controlUI.style.marginTop = '-50px';
+  controlUI.style.marginRight = '60px'
   controlDiv.appendChild(controlUI);
 
   // Set CSS for the control interior.
