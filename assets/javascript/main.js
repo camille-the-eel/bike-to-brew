@@ -755,9 +755,12 @@ var distance = function(){
         d = 50;
         $("#dist").val("50");
     }
+    else if (d < 0){
+        d = 1;
+        $("#dist").val("1");
+    }
     else if (d == ""){
     d = 5;
-    $("#dist").val("5")
     };
     return d;
 }
