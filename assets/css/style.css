@@ -62,7 +62,7 @@ label {
 }
 
 #searchContent {
-    box-shadow: 10px 10px 10px #4A2C1A;
+    box-shadow: 10px 10px 10px -6px rgb(75, 44, 26, 0.8);
     padding-right: 0px;
 }
 
@@ -86,28 +86,46 @@ label {
 
 .searchHeader {
     background-color: #4A2C1A;
-    height: 30px;
+    height: 40px;
     color: #ffffff;
     font-weight: bold;
     text-align: left;
-    padding: 3px;
-    font-size: 20px;
+    font-size: 22px;
+    box-shadow: 0 8px 6px -6px black;
 }
 
 .searchList {
     background-color: #A36301;
-    height: 195px;
+    height: 185px;
     color: #ffffff;
     overflow-y: scroll;
+    z-index: 1;
 }
 
 a {
     color: #ffffff;
 }
 
-#brewery-body{
-    max-height: 380px;
-    overflow: auto;
+#mtb-header {
+    padding: 3px;
+    padding-left: 18px;
+    z-index: 5;
+
+}
+
+#brewery-header {
+    padding: 3px;
+    padding-left: 18px;
+}
+
+#mtb-body {
+    padding: 6px;
+    padding-left: 18px;
+}
+
+#brewery-body   {
+    padding: 6px;
+    padding-left: 18px;
 }
 
 .searchList :hover{
