@@ -1,13 +1,28 @@
-#splashScreen{
-    background-color: orange;
+#splashScreen   {
+    background-color: #e9a502;
     height:100vh;
 }
+
 #splashScreen .col {
-    margin-top: 200px;
+    margin-top: 180px;
 }
 
-#appContent{
+#splashLogo {
+    height: 420px;
+}
+
+body {
+    background-color: #e9a502;
+}
+
+#appContent {
     display:none;
+    margin-top: 60px;
+}
+
+form {
+    /* vertical-align: center; */
+    margin-top: 5%;
 }
 
 #markerMap {

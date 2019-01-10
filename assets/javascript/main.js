@@ -413,7 +413,13 @@ function markerMap(mapCtr, mapInfoArr) {
                   featureType: "road.local",
                   stylers: [
                     {
-                      visibility: "off"
+                      color: "#fee3a7"
+                    },
+                    {
+                      lightness: -70
+                    },
+                    {
+                      weight: 0.5
                     }
                   ]
                 },
