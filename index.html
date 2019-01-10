@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://use.typekit.net/tbg1gqd.css">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
             
 
@@ -39,14 +40,16 @@
         
                     <div class="row">
         
-                        <div class="input-field col s5 m9">
-                            <input placeholder="Enter City, Zip Code, Trail Name, or Brewery" id="coordinateInput" type="search">
+                        <div class="input-field inline col s5 m9">
+                            <input id="coordinateInput" type="search">
+                            <label for="coordinateInput">ENTER CITY, ZIP CODE, TRAIL NAME, OR BREWERY</label>
                             <i class="material-icons clearSearch">close</i>
                             <!-- <label for="Location">Enter Location</label> -->
                         </div>
         
-                        <div class="input-field col s5 m2">
-                            <input id="dist" type="number" value="5" min="1" max="50">
+                        <div class="input-field inline col s5 m2">
+                            <input placeholder="RADIUS" id="dist">
+                            <!-- <label for="dist">RADIUS</label> -->
                             <!-- <label for="dist">Search Radius</label> -->
                         </div>
         
