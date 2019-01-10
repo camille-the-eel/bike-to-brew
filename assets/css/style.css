@@ -61,13 +61,26 @@ label {
     background-color: #4A2C1A;
 }
 
+#searchContent {
+    box-shadow: 10px 10px 10px #4A2C1A;
+    padding-right: 0px;
+}
+
 #markerMap {
+    margin-bottom: -20px;
     height: 450px;
     width: 100%;
 }
 
+#resultsHolder {
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
 #searchResults {
     margin-top: 0px;
+    margin-right: -12px;
+    margin-bottom: 0px;
     margin-left: -35px;
 }
 
@@ -85,6 +98,7 @@ label {
     background-color: #A36301;
     height: 195px;
     color: #ffffff;
+    overflow-y: scroll;
 }
 
 a {
@@ -99,6 +113,26 @@ a {
 .searchList :hover{
     color: #25cef9;
 }
+
+/* Scrollbar Properties */
+/* width */
+::-webkit-scrollbar {
+    width: 0px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: transparent; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: transparent; 
 
 @media only screen and (max-width: 600px) {
     .container{
