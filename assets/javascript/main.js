@@ -510,6 +510,7 @@ function mapPanSearch() {
 // search button settings
 function SearchControl(controlDiv, map) {
 
+<<<<<<< HEAD
   // Set CSS for the control border.
   var controlUI = document.createElement('div');
   controlUI.style.backgroundColor = '#fff';
@@ -550,6 +551,47 @@ function SearchControl(controlDiv, map) {
     let dist = distance();
     trailCall(dist, newLoc);
   });
+=======
+    // Set CSS for the control border.
+    var controlUI = document.createElement('div');
+    controlUI.style.backgroundColor = '#fff';
+    controlUI.style.border = '2px solid #fff';
+    controlUI.style.borderRadius = '2px';
+    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+    controlUI.style.cursor = 'pointer';
+    controlUI.style.marginTop = '-50px';
+    controlUI.style.marginRight = '60px';
+    controlUI.style.textAlign = 'center';
+    controlUI.title = 'Click to redo search at center of map';
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the control interior.
+    var controlText = document.createElement('div');
+    controlText.style.color = 'rgb(25,25,25)';
+    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+    controlText.style.fontSize = '16px';
+    controlText.style.lineHeight = '38px';
+    controlText.style.paddingLeft = '8px';
+    controlText.style.paddingRight = '8px';
+    controlText.innerHTML = 'Redo Search';
+    controlUI.appendChild(controlText);
+
+    // Setup the click event listeners: simply set the map to Chicago.
+    controlUI.addEventListener('click', function() {
+        let newCtr = map.getCenter();
+        let lat = newCtr.lat();
+        let lon = newCtr.lng();
+        lat = parseFloat(lat.toFixed(5));
+        lon = parseFloat(lon.toFixed(5));
+        $("#coordinateInput").val(lat + ', ' + lon)
+        let newLoc = {
+            lat: lat,
+            lng: lon
+        };
+        let dist = distance();
+        trailCall(lat, lon, dist, newLoc);
+    });
+>>>>>>> ba551983275f0013de2509838602d3d6c17cd6a0
 
 }
 
