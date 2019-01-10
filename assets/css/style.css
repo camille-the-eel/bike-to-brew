@@ -152,6 +152,7 @@ a {
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: transparent; 
+  }
 
 @media only screen and (max-width: 600px) {
     .container{
@@ -166,5 +167,4 @@ a {
     .modal {
         width: 100%;
     }
-  }
-  
+}
