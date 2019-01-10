@@ -59,7 +59,6 @@
 
 Wireframe Sketch: https://xd.adobe.com/view/9981514b-9d59-41cc-62e7-0435917c9493-efb0/
 
-<<<<<<< HEAD
 - MVP
 
     - Target Audience: cyclists interested in beer
@@ -95,5 +94,3 @@ Wireframe Sketch: https://xd.adobe.com/view/9981514b-9d59-41cc-62e7-0435917c9493
     I want to find trails near my favorite brewery
     So that I can exercise before I drink
 
-=======
->>>>>>> 9f1383f243d21898d82e4c4134ba59ee8816a1bf
