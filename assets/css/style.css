@@ -53,6 +53,35 @@ button {
     padding-bottom: 10px !important;
 }
 
+.breweryModal{
+    /* max-width: 550px; */
+}
+
+#breweryBox {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    max-width: 500px;
+    height: 450px;
+    background-color: black;
+    color: white;
+}
+
+#breweryImageBox {
+margin: auto;
+max-width: 400px;
+}
+
+.carousel-item img {
+    max-height: 250px;
+}
+
+.breakLine {
+margin: auto;
+width: 80%;
+border-top: solid darkgrey 1px;
+}
+
 /* #coordinateInput:active {
     padding-bottom: -10px !important;
 } */
