@@ -58,6 +58,7 @@ button {
     padding-right: 0px;
     padding-left: 0px;
     position: relative;
+    top: 3%;
     bottom: 0px;
     vertical-align: baseline;
 }
@@ -139,7 +140,7 @@ input:-ms-input-placeholder {
     text-align: center;
     width: auto;
     max-width: 440px;
-    min-height: 450px;
+    min-height: 400px;
     background-color: black;
     color: white;
     padding: 10px;
@@ -365,6 +366,15 @@ background: transparent;
         font-family: futura-pt-condensed, sans-serif;
         font-weight: 300;
         font-size: 18px !important;
+    }
+
+    #formRow {
+        padding-right: 0px;
+        padding-left: 0px;
+        position: relative;
+        top: 1.5%;
+        bottom: 0px;
+        vertical-align: baseline;
     }
 
     .input-field label {
