@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bike to Brews</title>
+    <title>Bike to Brew</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://use.typekit.net/tbg1gqd.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
             
 
@@ -26,7 +27,30 @@
     <div class="container" id ="appContent">
     
         <div id="modal1" class="modal">
-            <div class="modal-content"></div>
+            <div class="modal-content trailModal"></div>
+        </div>
+        <div id="modalBrewery" class="modal">
+            <div class="modal-content breweryModal">
+                <div id="breweryBox">
+                    <div id="breweryImageBox">
+                        <div class="carousel carousel-slider"></div>
+                    </div>
+                    <div id="breweryInfoBox">
+                        <h6 id="brewNameModal"></h6>
+                        <!-- <div class="stars-outer">
+                              <div class="stars-inner"></div> -->
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="breakLine"></div>
+                    <p id="brewPhoneModal"></p>
+                    <div class="breakLine"></div>
+                    <p id="brewAdressModal"></p>
+                </div>
+            </div>
         </div>
         
         <div class="row">
@@ -47,8 +71,8 @@
                         </div>
         
                         <div class="input-field inline col s5 m2">
-                            <input placeholder="RADIUS" id="dist">
-                            <!-- <label for="dist">RADIUS</label> -->
+                            <input type = "number" placeholder="RADIUS" id="dist">
+                             <!-- <label for="dist">RADIUS</label> -->
                             <!-- <label for="dist">Search Radius</label> -->
                         </div>
         
