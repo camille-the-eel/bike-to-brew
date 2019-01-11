@@ -743,7 +743,7 @@ var distance = function(){
         $("#dist").val("1");
     }
     else if (d == ""){
-    d = 5;
+    d = 10;
     };
     return d;
 }
