@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta Content-type: charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Bike to Brew</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,6 @@
             </div>
         </div>
     </div>
-    
     <div class="container" id ="appContent">
     
         <div id="modal1" class="modal">
@@ -38,18 +37,14 @@
                     </div>
                     <div id="breweryInfoBox">
                         <h6 id="brewNameModal"></h6>
-                        <!-- <div class="stars-outer">
-                              <div class="stars-inner"></div> -->
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
+                        <div class="stars-outer">
+                              <div class="stars-inner"></div>
+                        </div>
+                        <div class="breakLine"></div>
+                        <p id="brewPhoneModal"></p>
+                        <div class="breakLine"></div>
+                        <p id="brewAdressModal"></p>
                     </div>
-                    <div class="breakLine"></div>
-                    <p id="brewPhoneModal"></p>
-                    <div class="breakLine"></div>
-                    <p id="brewAdressModal"></p>
                 </div>
             </div>
         </div>
@@ -60,24 +55,24 @@
                 
                 <img class="col s2 l1" id="contentLogo" src="assets/images/biketobrewlogo.png">
 
-                <form class="col s10 l11">
+                <form class="col s10 l11" id="formRow">
         
                     <!-- <div class="row"> -->
         
-                        <div class="input-field inline col s7 l8">
+                        <div class="input-field inline col s7 m9 l9">
                             <input id="coordinateInput" type="search" class="active">
                             <label for="coordinateInput">ENTER CITY, ZIP CODE, TRAIL NAME, OR BREWERY</label>
                             <i class="material-icons clearSearch">close</i>
                             <!-- <label for="Location">Enter Location</label> -->
                         </div>
         
-                        <div class="input-field inline col s2 l2 radiusSearch">
+                        <div class="input-field inline col s3 m2 l2 radiusSearch">
                             <input type = "number" placeholder="RADIUS" id="dist">
                              <!-- <label for="dist">RADIUS</label> -->
                             <!-- <label for="dist">Search Radius</label> -->
                         </div>
                         
-                        <div class="col s1 l1">
+                        <div class="col s1 m1 l1">
                             <button class="waves-effect waves-light" type="submit" name="action" id="coordinateSubmit">
                                 <img id="searchGlass" src="assets/images/searchicon_white.png">
                                 <!-- <i class="material-icons search">search</i> -->
