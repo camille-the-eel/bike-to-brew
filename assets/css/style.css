@@ -38,8 +38,10 @@ button {
 }
 
 #contentLogo {
-    max-height: 240px;
-    max-width: 100%;
+    max-height: auto;
+    max-width: 100px;
+    margin: 0px;
+    padding-left: 10px;
 }
 
 #header {
@@ -58,7 +60,7 @@ button {
     padding-right: 0px;
     padding-left: 0px;
     position: relative;
-    top: 3%;
+    top: 6.5%;
     bottom: 0px;
     vertical-align: baseline;
 }
@@ -310,12 +312,12 @@ background: transparent;
 }
 
 @media only screen and (max-width: 992px) {
-/* 
+
     #formRow {
         position: relative;
-        top: 2.5%;
+        top: 4%;
         bottom: 0px;
-    } */
+    }
 
     #searchContent {
         box-shadow: none;
