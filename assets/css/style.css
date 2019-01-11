@@ -310,6 +310,13 @@ background: transparent;
 }
 
 @media only screen and (max-width: 992px) {
+/* 
+    #formRow {
+        position: relative;
+        top: 2.5%;
+        bottom: 0px;
+    } */
+
     #searchContent {
         box-shadow: none;
     }
@@ -369,12 +376,9 @@ background: transparent;
     }
 
     #formRow {
-        padding-right: 0px;
-        padding-left: 0px;
         position: relative;
         top: 1.5%;
         bottom: 0px;
-        vertical-align: baseline;
     }
 
     .input-field label {
