@@ -84,6 +84,13 @@ input {
     font-size: 30px !important;
 }
 
+.input-field {
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+}
+
+
 .input-field label {
     color: #ffffff;
     font-family: futura-pt-condensed, sans-serif;
@@ -315,7 +322,11 @@ background: transparent;
 
     #formRow {
         position: relative;
+<<<<<<< HEAD
         top: 6%;
+=======
+        top: 9%;
+>>>>>>> master
         bottom: 0px;
     }
 
