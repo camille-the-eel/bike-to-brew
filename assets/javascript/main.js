@@ -769,7 +769,6 @@ function infoWindowPopup(marker) {
     // infowindow.open(map, marker);
   }
   infowindow.open(map, marker);
-  $(".popUp :parent").css({"background-color": "red"})
 }
 
 // pans map to map marker when selecting from one of the lists
