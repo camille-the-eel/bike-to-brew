@@ -29,7 +29,7 @@ button {
 }
 
 #contentLogo {
-    max-height: 180px;
+    max-height: 240px;
     max-width: 100%;
 }
 
@@ -48,9 +48,16 @@ button {
     padding-bottom: -10px !important;
 } */
 
-form {
+/* form {
+
+} */
+
+#formRow {
+    padding-right: 0px;
+    padding-left: 0px;
     position: relative;
-    top: 57px;
+    bottom: 0px;
+    vertical-align: baseline;
 }
 
 .radiusSearch {

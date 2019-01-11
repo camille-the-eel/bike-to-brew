@@ -571,6 +571,7 @@ function addMarkers(mapInfoArr) {
       icon: iconBase + "cycling.png"
     }
   };
+  console.log(markers);
   infowindow = new google.maps.InfoWindow();
   for (let i = 0; i < mapInfoArr.length; i++) {
     let position = { lat: mapInfoArr[i].lat, lng: mapInfoArr[i].lon }
