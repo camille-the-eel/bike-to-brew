@@ -97,6 +97,11 @@ input {
     font-weight: 500;
     font-size: 30px !important;
 }
+
+.input-field:focus + .icon-white  {
+    color: #ffffff !important;
+}
+
 .input-field input:focus + label {
     color: #4a2c1a !important;
     font-size: 30px !important;
@@ -107,6 +112,7 @@ input {
     border-bottom: 1px solid #a36301 !important;
     box-shadow: 0 1px 0 0 #a36301 !important;
 }
+
 .input-field input:focus {
     border-bottom: 1px solid #ffffff !important;
     box-shadow: 0 1px 0 0 #ffffff !important;
