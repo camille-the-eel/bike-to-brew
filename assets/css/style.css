@@ -15,6 +15,10 @@ body {
     background-color: #e9a502;
 }
 
+.btn {
+    background-color: #4A2C1A !important;
+}
+
 #appContent {
     display:none;
     margin-top: 60px;
@@ -102,6 +106,7 @@ input:-ms-input-placeholder {
 #resultsHolder {
     margin-right: 0px;
     padding-right: 0px;
+    /* width: 240px; */
 }
 
 #searchResults {
@@ -162,22 +167,42 @@ a {
 /* width */
 ::-webkit-scrollbar {
     width: 0px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: transparent; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: transparent; 
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: transparent; 
-  }
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: transparent; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: transparent; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: transparent; 
+}
+
+@media only screen and (max-width: 992px) {
+    #searchContent {
+        box-shadow: none;
+    }
+
+    #markerMap {
+        box-shadow: 10px 10px 10px -6px rgb(75, 44, 26);
+        border: none;
+    }
+
+    .listData {
+        color: #a36301 !important;
+    }
+
+    .dropdown-trigger {
+        width: 100%;
+    }
+
+}
 
 @media only screen and (max-width: 600px) {
     .container{
