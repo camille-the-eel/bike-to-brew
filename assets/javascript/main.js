@@ -159,6 +159,12 @@ function markerMap(mapCtr, mapInfoArr) {
         document.getElementById("markerMap"), {
             zoom: 11, 
             center: mapCtr, 
+            zoomControl: true,
+            mapTypeControl: false,
+            scaleControl: false,
+            streetViewControl: false,
+            rotateControl: false,
+            fullscreenControl: true,
             styles: [
                 {
                   elementType: "geometry",
