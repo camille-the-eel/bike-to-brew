@@ -382,7 +382,6 @@ background: transparent;
     }
 
     .input-field label {
-        font-weight: 500;
         font-size: 20px !important;
         margin-top: -20px !important;
     }
@@ -402,4 +401,18 @@ background: transparent;
         padding-left: 30px;
         padding-right: 30px;
     }
+}
+
+@media only screen and (max-width: 328px) {
+    #splashScreen .col {
+        margin-top: 120px;
+    }
+    
+    .input-field label {
+        margin-top: -48px !important;
+    }
+
+    .input-field input:focus + label {
+        margin-top: -48px !important;
+    } 
 }
