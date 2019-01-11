@@ -160,6 +160,12 @@ function markerMap(mapCtr) {
         document.getElementById("markerMap"), {
             zoom: 11, 
             center: mapCtr, 
+            zoomControl: true,
+            mapTypeControl: false,
+            scaleControl: false,
+            streetViewControl: false,
+            rotateControl: false,
+            fullscreenControl: true,
             styles: [
                 {
                   elementType: "geometry",
@@ -789,7 +795,7 @@ var distance = function(){
         $("#dist").val("1");
     }
     else if (d == ""){
-    d = 5;
+    d = 10;
     };
     return d;
 }
@@ -799,6 +805,7 @@ function splashScreen() {
   setTimeout(function () {
     $("#splashScreen").slideUp(500);
     $("#appContent").fadeIn(1000);
+    $("footer").fadeIn(1000);
     buttonClick();
     geoCall(distance());
   }, 1000);

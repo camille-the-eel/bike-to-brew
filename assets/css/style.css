@@ -13,11 +13,28 @@
 
 body {
     background-color: #e9a502;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    background-color: #e9a502 ;
+}
+
+.btn {
+    background-color: #4A2C1A !important;
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 300;
+    font-size: 25px !important;
+    margin-top: 3px;
+    
 }
 
 #appContent {
-    display:none;
+    display: none;
     margin-top: 60px;
+    flex: 1 0 auto;
 }
 
 #contentLogo {
@@ -26,14 +43,14 @@ body {
 }
 
 #header {
-    /* vertical-align: center; */
-    position: relative;
-    bottom: 0px;
+    /* position: relative;
+    bottom: 0px; */
     height: fit-content;
 }
 
 #coordinateInput {
     background-color: transparent;
+    padding-bottom: 10px !important;
 }
 
 .breweryModal{
@@ -65,29 +82,42 @@ width: 80%;
 border-top: solid darkgrey 1px;
 }
 
+/* #coordinateInput:active {
+    padding-bottom: -10px !important;
+} */
 
 form {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    height: 45px;
     position: relative;
-    bottom: 0px;
+    top: 57px;
 }
 
-label {
-    color: #ffffff;
+.radiusSearch {
+    position: relative;
+    top: 10px;
+}
+
+#searchGlass {
+    width: 30px;
 }
 
 input {
     color: #ffffff !important;
     margin-top: 0px;
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 500;
+    font-size: 30px !important;
 }
 
 .input-field label {
     color: #ffffff;
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 500;
+    font-size: 30px !important;
 }
 .input-field input:focus + label {
     color: #4a2c1a !important;
+    font-size: 30px !important;
+    margin-top: -20px !important;
 }
 
 .input-field input {
@@ -113,12 +143,23 @@ input:-ms-input-placeholder {
 }
 
 #coordinateSubmit {
-    background-color: #4A2C1A;
+    background-color: transparent; 
+    background-image: none;
+    background-repeat: no-repeat;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: none;
+    position: relative;
+    top: 35px;
+    margin-left: -20px !important;
 }
 
 #searchContent {
     box-shadow: 10px 10px 10px -6px rgb(75, 44, 26);
     padding-right: 0px;
+    width: 100%;
 }
 
 #markerMap {
@@ -131,6 +172,7 @@ input:-ms-input-placeholder {
 #resultsHolder {
     margin-right: 0px;
     padding-right: 0px;
+    /* width: 240px; */
 }
 
 #searchResults {
@@ -142,20 +184,24 @@ input:-ms-input-placeholder {
 
 .searchHeader {
     background-color: #4A2C1A;
-    height: 40px;
+    height: 55 px;
     color: #ffffff;
-    font-weight: bold;
     text-align: left;
-    font-size: 22px;
     box-shadow: 0px 4px 4px rgb(75, 44, 26, 0.5);
     position: relative;
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 500;
+    font-size: 35px !important;
 }
 
 .searchList {
     background-color: #A36301;
-    height: 185px;
+    height: 167px;
     color: #ffffff;
     overflow-y: scroll;
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 300;
+    font-size: 25px !important;
 }
 
 a {
@@ -187,28 +233,67 @@ a {
     color: #25cef9;
 }
 
+footer {
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 300;
+    font-size: 20px !important;
+    color: #a36301;
+    border-top: 2px solid #a36301;
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: none;
+    background-color: transparent;
+    padding: 0px 10px 10px 10px;
+  }
+
 /* Scrollbar Properties */
 /* width */
 ::-webkit-scrollbar {
     width: 0px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: transparent; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: transparent; 
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: transparent; 
-  }
+}
 
-@media only screen and (max-width: 600px) {
+/* Track */
+::-webkit-scrollbar-track {
+background: transparent; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: transparent; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: transparent; 
+}
+
+@media only screen and (max-width: 992px) {
+    #searchContent {
+        box-shadow: none;
+    }
+
+    #markerMap {
+        box-shadow: 10px 10px 10px -6px rgb(75, 44, 26);
+        border: none;
+    }
+
+    .listData {
+        color: #a36301 !important;
+        font-family: futura-pt-condensed, sans-serif;
+        font-weight: 500;
+        font-size: 25px !important;
+    }
+
+    .dropdown-trigger {
+        width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 550px) {
     .container{
         width: 100%;
     }
@@ -220,5 +305,16 @@ a {
     }
     .modal {
         width: 100%;
+    }
+    .btn {
+        font-family: futura-pt-condensed, sans-serif;
+        font-weight: 300;
+        font-size: 18px !important;
+    }
+    .footerP {
+        font-size: 15px;
+        line-height: 20px;
+        padding-left: 30px;
+        padding-right: 30px;
     }
 }

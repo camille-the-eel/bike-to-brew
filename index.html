@@ -19,7 +19,8 @@
     <div id="splashScreen">
         <div class='row'>
             <div class='col s12 center-align'>
-                <img id="splashLogo" src="assets/images/b2b_logo.png">
+                <img id="splashLogo" src="assets/images/biketobrewsplashlogo.png">
+
             </div>
         </div>
     </div>
@@ -57,14 +58,14 @@
 
             <div class="row" id="header">
                 
-                <img class="col s2 l1" id="contentLogo" src="assets/images/b2b_logo.png">
+                <img class="col s2 l1" id="contentLogo" src="assets/images/biketobrewlogo.png">
 
                 <form class="col s10 l11">
         
-                    <div class="row">
+                    <!-- <div class="row"> -->
         
-                        <div class="input-field inline col s5 m9">
-                            <input id="coordinateInput" type="search">
+                        <div class="input-field inline col s7 l8">
+                            <input id="coordinateInput" type="search" class="active">
                             <label for="coordinateInput">ENTER CITY, ZIP CODE, TRAIL NAME, OR BREWERY</label>
                             <i class="material-icons clearSearch">close</i>
                             <!-- <label for="Location">Enter Location</label> -->
@@ -75,19 +76,22 @@
                              <!-- <label for="dist">RADIUS</label> -->
                             <!-- <label for="dist">Search Radius</label> -->
                         </div>
+                        
+                        <div class="col s1 l1">
+                            <button class="waves-effect waves-light" type="submit" name="action" id="coordinateSubmit">
+                                <img id="searchGlass" src="assets/images/searchicon_white.png">
+                                <!-- <i class="material-icons search">search</i> -->
+                            </button>
+                        </div>
         
-                        <button class="col btn waves-effect waves-light" type="submit" name="action" id="coordinateSubmit">
-                            <i class="material-icons search">search</i>
-                        </button>
-        
-                    </div>
+                    <!-- </div> -->
                 </form>
             </div>
         
             <div class='row hide-on-large-only'>
         
                 <div class='col s6 center-align'>
-                    <a class='dropdown-trigger btn' href='#' data-target='mtbList'>Trailheads Near You</a>
+                    <a class='dropdown-trigger btn' id="mtbDropdown" href='#' data-target='mtbList'>Trailheads Near You</a>
 
                     <!-- Dropdown Structure -->
                     <ul id='mtbList' class='dropdown-content mtbList'>
@@ -96,7 +100,7 @@
                 </div>
         
                 <div class='col s6 center-align'>
-                    <a class='dropdown-trigger btn' href='#' data-target='breweryList'>Breweries Near You</a>
+                    <a class='dropdown-trigger btn' id="breweryDropdown" href='#' data-target='breweryList'>Breweries Near You</a>
 
                     <!-- Dropdown Structure -->
                     <ul id='breweryList' class='dropdown-content breweryList'>
@@ -144,7 +148,10 @@
         
             </div>
         </div>
-    </div>    
+    </div>
+    <footer> 
+        <p class="footerP">This app does not in anyway condone or support drunk cycling/impaired driving. Please drink responsibily. • &copy; 2019 ByteMe</p>
+    </footer>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
