@@ -13,6 +13,9 @@
 
 body {
     background-color: #e9a502;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 button {
@@ -21,11 +24,17 @@ button {
 
 .btn {
     background-color: #4A2C1A !important;
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 300;
+    font-size: 25px !important;
+    margin-top: 3px;
+    
 }
 
 #appContent {
     display: none;
     margin-top: 60px;
+    flex: 1 0 auto;
 }
 
 #contentLogo {
@@ -42,6 +51,62 @@ button {
 #coordinateInput {
     background-color: transparent;
     padding-bottom: 10px !important;
+}
+
+.breweryModal{
+    /* max-width: 550px; */
+}
+
+#breweryBox {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    max-width: 500px;
+    min-height: 450px;
+    background-color: black;
+    color: white;
+    padding: 10px;
+}
+
+#breweryImageBox {
+margin: auto;
+max-width: 400px;
+}
+
+
+
+.carousel-item img {
+    max-height: 250px;
+}
+
+.stars-outer {
+display: inline-block;
+position: relative;
+font-family: FontAwesome;
+}
+   
+.stars-outer::before {
+content: "★★★★★";
+}
+   
+.stars-inner {
+position: absolute;
+top: 0;
+left: 0;
+white-space: nowrap;
+overflow: hidden;
+width: 0;
+}
+   
+.stars-inner::before {
+content: "★★★★★";
+color: #f8ce0b;
+}
+
+.breakLine {
+margin: auto;
+width: 80%;
+border-top: solid darkgrey 1px;
 }
 
 /* #coordinateInput:active {
@@ -202,6 +267,26 @@ a {
     color: #25cef9;
 }
 
+#brewAdressModal a {
+    color: rgb(66, 102, 245);
+}
+
+footer {
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 300;
+    font-size: 20px !important;
+    color: #a36301;
+    border-top: 2px solid #a36301;
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: none;
+    background-color: transparent;
+    padding: 0px 10px 10px 10px;
+  }
+
 /* Scrollbar Properties */
 /* width */
 ::-webkit-scrollbar {
@@ -235,6 +320,9 @@ background: transparent;
 
     .listData {
         color: #a36301 !important;
+        font-family: futura-pt-condensed, sans-serif;
+        font-weight: 500;
+        font-size: 25px !important;
     }
 
     .dropdown-trigger {
@@ -243,22 +331,7 @@ background: transparent;
 
 }
 
-  footer {
-    font-family: futura-pt-condensed, sans-serif;
-    font-weight: 300;
-    font-size: 20px !important;
-    color: #a36301;
-    border-top: 2px solid #a36301;
-    width: 100%;
-    position: fixed;
-    bottom: 0px;
-    height: 60px;
-    text-align: center;
-    margin-bottom: 10px;
-    display: none;
-  }
-
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 550px) {
     .container{
         width: 100%;
     }
@@ -270,5 +343,16 @@ background: transparent;
     }
     .modal {
         width: 100%;
+    }
+    .btn {
+        font-family: futura-pt-condensed, sans-serif;
+        font-weight: 300;
+        font-size: 18px !important;
+    }
+    .footerP {
+        font-size: 15px;
+        line-height: 20px;
+        padding-left: 30px;
+        padding-right: 30px;
     }
 }

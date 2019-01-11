@@ -11,6 +11,7 @@ var infowindow;
 var service;
 var mtbObject;
 var breweryObject;
+var scroll;
 
 
 
@@ -154,7 +155,7 @@ function makeArrays() {
 }
 
 // Draw google map with our specific styling
-function markerMap(mapCtr, mapInfoArr) {
+function markerMap(mapCtr) {
     map = new google.maps.Map(
         document.getElementById("markerMap"), {
             zoom: 11, 
@@ -635,31 +636,95 @@ function trailList(mtbInfoArr) {
 function trailDetails(trailId) {
   let trailWidget = $("<div>");
   trailWidget.html('<iframe style="width:100%; max-width:1200px; height:410px;" frameborder="0" scrolling="no" src="https://www.mtbproject.com/widget?v=3&map=1&type=trail&id=' + trailId + '&z=6"></iframe>')
-  $(".modal-content").empty();
-  $(".modal-content").append(trailWidget);
+  $(".trailModal").empty();
+  $(".trailModal").append(trailWidget);
   $('#modal1').modal('open');
 }
 
+// function breweryDetails(breweryId) {
+//   var request = {
+//     placeId: breweryId,
+//     fields: ['url', 'website']
+//   };
+//   console.log(request);
+
+//   service = new google.maps.places.PlacesService(map);
+//   service.getDetails(request, placeDetails);
+//   function placeDetails(results, status) {
+//     if (status == google.maps.places.PlacesServiceStatus.OK) {
+//       console.log(results);
+//       let bURL = results.website;
+//       let breweryWidget = $("<div>");
+//       breweryWidget.html('<iframe style="width:100%; max-width:800px; height:410px;" frameborder="0" scrolling="yes" src=" ' + bURL + ' "></iframe>')
+//       // $(".breweryModal").empty();
+//       // $(".breweryModal").append(breweryWidget);
+//       $('#modalBrewery').modal('open');
+//     }
+//   }
+// }
 function breweryDetails(breweryId) {
+  clearInterval(scroll);
   var request = {
     placeId: breweryId,
-    fields: ['url', 'website']
+    fields: ['url', 'website', 'name', 'formatted_address', 'formatted_phone_number', 'photos', 'rating']
   };
-  console.log(request);
 
-  service = new google.maps.places.PlacesService(map);
-  service.getDetails(request, placeDetails);
-  function placeDetails(results, status) {
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-      console.log(results);
-      let bURL = results.website;
-      let breweryWidget = $("<div>");
-      breweryWidget.html('<iframe style="width:100%; max-width:800px; height:410px;" frameborder="0" scrolling="yes" src=" ' + bURL + ' "></iframe>')
-      $(".modal-content").empty();
-      $(".modal-content").append(breweryWidget);
-      $('#modal1').modal('open');
+  var service = new google.maps.places.PlacesService(map);
+  service.getDetails(request, placeDetails)
+
+  function placeDetails(place, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      console.log(place);
+      let name = place.name
+      let rating = place.rating;
+      const starTotal = 5;
+      const starPercentage = (rating / starTotal) * 100;
+      const starPercentageRounded = `${(Math.round(starPercentage / 10) * 10)}%`;
+      $(".stars-inner").css("width", starPercentageRounded);
+      let address = place.formatted_address;
+      let phoneNum = place.formatted_phone_number;
+      let webSite = place.website;
+      let webLink = $("<a>");
+      webLink.attr({"href": webSite, "target": "_blank"});
+      webLink.text(name)
+      
+      $("#brewNameModal").text(name);
+      $("#brewPhoneModal").text(phoneNum);
+      $("#brewAdressModal").html(address + '<br>');
+      $("#brewAdressModal").append(webLink);
+
+      $(".carousel").empty();
+      if (place.photos == null){
+        for (let i = 0; i < 1; i++){
+          let cAnchor = $("<a>");
+          cAnchor.addClass("carousel-item")
+          cAnchor.attr("href", "#one!")
+          let defaultImg = $("<img>").attr({"src": "assets/images/Copper-Moonshine-Still-3.jpg", "width": "300px"});
+          cAnchor.append(defaultImg);
+          $(".carousel").append(cAnchor);
+        }
+      }else{
+        for ( let i = 0; i < place.photos.length; i++){
+          let pURL = place.photos[i].getUrl();
+          let cAnchor = $("<a>");
+          cAnchor.addClass("carousel-item")
+          cAnchor.attr({"href": webSite, "target": "_blank"});
+          let cImg = $("<img>");
+          cImg.attr("src", pURL);
+          cAnchor.append(cImg);
+          $(".carousel").append(cAnchor)
+          // $('.carousel').carousel();
+        }
+        scroll = setInterval(timer, 4000)
+      }
+      $('#modalBrewery').modal('open');
     }
-  }
+  };
+
+}
+
+function timer(){
+  $('.carousel').carousel('next');
 }
 
 // receives brewery info from google places, populates brewery array and updates DOM list of breweries
@@ -707,7 +772,7 @@ function buttonClick() {
 // add info to the map marker info window
 function infoWindowPopup(marker) {
   if (marker.type == "trail") {
-    infowindow.setContent('<div>' +
+    infowindow.setContent('<div class = "popUp">' +
       '<strong>' + marker.title + '</strong><br>' +
       '</div>' +
       '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="trailDetails(' + marker.id + ')">More Info</button>'
@@ -715,7 +780,7 @@ function infoWindowPopup(marker) {
     // infowindow.open(map, marker);
   } else {
     let mID = marker.id
-    infowindow.setContent('<div>' +
+    infowindow.setContent('<div class = "popUp">' +
       '<strong>' + marker.title + '</strong><br>' +
       marker.address + '<br>' +
       // '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(' + marker.id + ')">More Info</button>' +
@@ -723,6 +788,7 @@ function infoWindowPopup(marker) {
       '</div>')
     // infowindow.open(map, marker);
   }
+  $(".gm-style-iw").parent().css({"background-color": "red"});
   infowindow.open(map, marker);
 }
 
@@ -750,7 +816,7 @@ var distance = function(){
         $("#dist").val("1");
     }
     else if (d == ""){
-    d = 5;
+    d = 10;
     };
     return d;
 }
@@ -776,6 +842,21 @@ $(document).ready(function () {
   $('.dropdown-trigger').dropdown();
   $('.collapsible').collapsible();
   $('.modal').modal();
+  // $('.carousel').carousel({fullwidth: true});
+  var elems = document.querySelectorAll('.modal');
+  var instances = M.Modal.init(elems, {
+     'onOpenEnd': initCarouselModal
+ });
+
+function initCarouselModal() {
+  var elems = document.querySelectorAll('.carousel');
+  var instances = M.Carousel.init(elems, {
+    numVisible: 1,
+    fullWidth: true,
+    indicators: true,
+  });
+  instances[0].set(2);
+}
 
   // end of doc ready
 });
