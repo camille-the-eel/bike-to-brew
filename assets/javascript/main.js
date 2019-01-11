@@ -43,10 +43,7 @@ function coordinateCall(sParameter, dist) {
     let newLoc = {
       lat: lat,
       lng: lon
-    }.fail(function (err) {
-      throw err;
-    });
-    // $("#markerMap").empty();
+    };
     trailCall(dist, newLoc);
     map.panTo(newLoc);
   });
@@ -510,48 +507,6 @@ function mapPanSearch() {
 // search button settings
 function SearchControl(controlDiv, map) {
 
-<<<<<<< HEAD
-  // Set CSS for the control border.
-  var controlUI = document.createElement('div');
-  controlUI.style.backgroundColor = '#fff';
-  controlUI.style.border = '2px solid #fff';
-  controlUI.style.borderRadius = '3px';
-  controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-  controlUI.style.cursor = 'pointer';
-  controlUI.style.marginTop = '8px';
-  controlUI.style.textAlign = 'center';
-  controlUI.title = 'Click to redo search at center of map';
-  controlUI.style.marginTop = '-50px';
-  controlUI.style.marginRight = '60px'
-  controlDiv.appendChild(controlUI);
-
-  // Set CSS for the control interior.
-  var controlText = document.createElement('div');
-  controlText.style.color = 'rgb(25,25,25)';
-  controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-  controlText.style.fontSize = '16px';
-  controlText.style.lineHeight = '38px';
-  controlText.style.paddingLeft = '5px';
-  controlText.style.paddingRight = '5px';
-  controlText.innerHTML = 'Redo Search';
-  controlUI.appendChild(controlText);
-
-  // Setup the click event listeners: simply set the map to Chicago.
-  controlUI.addEventListener('click', function () {
-    let newCtr = map.getCenter();
-    let lat = newCtr.lat();
-    let lon = newCtr.lng();
-    lat = parseFloat(lat.toFixed(5));
-    lon = parseFloat(lon.toFixed(5));
-    $("#coordinateInput").val(lat + ', ' + lon)
-    let newLoc = {
-      lat: lat,
-      lng: lon
-    };
-    let dist = distance();
-    trailCall(dist, newLoc);
-  });
-=======
     // Set CSS for the control border.
     var controlUI = document.createElement('div');
     controlUI.style.backgroundColor = '#fff';
@@ -589,9 +544,8 @@ function SearchControl(controlDiv, map) {
             lng: lon
         };
         let dist = distance();
-        trailCall(lat, lon, dist, newLoc);
+        trailCall(dist, newLoc);
     });
->>>>>>> ba551983275f0013de2509838602d3d6c17cd6a0
 
 }
 
