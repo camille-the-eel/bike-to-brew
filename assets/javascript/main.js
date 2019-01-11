@@ -665,7 +665,7 @@ function breweryDetails(breweryId) {
   clearInterval(scroll);
   var request = {
     placeId: breweryId,
-    // fields: ['url', 'website', 'name', 'formatted_address', 'formatted_phone_number', 'photos', 'rating']
+    fields: ['url', 'website', 'name', 'formatted_address', 'formatted_phone_number', 'photos', 'rating']
   };
 
   var service = new google.maps.places.PlacesService(map);
@@ -675,32 +675,51 @@ function breweryDetails(breweryId) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       console.log(place);
       let name = place.name
+      let rating = place.rating;
+      const starTotal = 5;
+      const starPercentage = (rating / starTotal) * 100;
+      const starPercentageRounded = `${(Math.round(starPercentage / 10) * 10)}%`;
+      $(".stars-inner").css("width", starPercentageRounded);
       let address = place.formatted_address;
       let phoneNum = place.formatted_phone_number;
+      let webSite = place.website;
+      let webLink = $("<a>");
+      webLink.attr({"href": webSite, "target": "_blank"});
+      webLink.text(name)
+      
       $("#brewNameModal").text(name);
       $("#brewPhoneModal").text(phoneNum);
-      $("#brewAdressModal").text(address);
+      $("#brewAdressModal").html(address + '<br>');
+      $("#brewAdressModal").append(webLink);
+
       $(".carousel").empty();
-      for ( let i = 0; i < place.photos.length; i++){
-        let pURL = place.photos[i].getUrl();
-        let cAnchor = $("<a>");
-        cAnchor.addClass("carousel-item")
-        cAnchor.attr("href", "#one!")
-        let cImg = $("<img>");
-        cImg.attr("src", pURL);
-        cAnchor.append(cImg);
-        $(".carousel").append(cAnchor)
+      if (place.photos == null){
+        for (let i = 0; i < 1; i++){
+          let cAnchor = $("<a>");
+          cAnchor.addClass("carousel-item")
+          cAnchor.attr("href", "#one!")
+          let defaultImg = $("<img>").attr({"src": "assets/images/Copper-Moonshine-Still-3.jpg", "width": "300px"});
+          cAnchor.append(defaultImg);
+          $(".carousel").append(cAnchor);
+        }
+      }else{
+        for ( let i = 0; i < place.photos.length; i++){
+          let pURL = place.photos[i].getUrl();
+          let cAnchor = $("<a>");
+          cAnchor.addClass("carousel-item")
+          cAnchor.attr({"href": webSite, "target": "_blank"});
+          let cImg = $("<img>");
+          cImg.attr("src", pURL);
+          cAnchor.append(cImg);
+          $(".carousel").append(cAnchor)
+          // $('.carousel').carousel();
+        }
+        scroll = setInterval(timer, 4000)
       }
-
       $('#modalBrewery').modal('open');
-      $('.carousel').carousel();
-
-      // setInterval(function() {
-      //   $('.carousel').carousel('next');
-      // }, 4000);
     }
   };
-  scroll = setInterval(timer, 4000)
+
 }
 
 function timer(){
@@ -768,8 +787,8 @@ function infoWindowPopup(marker) {
       '</div>')
     // infowindow.open(map, marker);
   }
+  $(".gm-style-iw").parent().css({"background-color": "red"});
   infowindow.open(map, marker);
-  $(".popUp :parent").css({"background-color": "red"})
 }
 
 // pans map to map marker when selecting from one of the lists
