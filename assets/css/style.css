@@ -62,9 +62,10 @@ button {
     margin-right: auto;
     text-align: center;
     max-width: 500px;
-    height: 450px;
+    min-height: 450px;
     background-color: black;
     color: white;
+    padding: 10px;
 }
 
 #breweryImageBox {
@@ -72,8 +73,34 @@ margin: auto;
 max-width: 400px;
 }
 
+
+
 .carousel-item img {
     max-height: 250px;
+}
+
+.stars-outer {
+display: inline-block;
+position: relative;
+font-family: FontAwesome;
+}
+   
+.stars-outer::before {
+content: "★★★★★";
+}
+   
+.stars-inner {
+position: absolute;
+top: 0;
+left: 0;
+white-space: nowrap;
+overflow: hidden;
+width: 0;
+}
+   
+.stars-inner::before {
+content: "★★★★★";
+color: #f8ce0b;
 }
 
 .breakLine {
@@ -231,6 +258,10 @@ a {
 
 .searchList :hover{
     color: #25cef9;
+}
+
+#brewAdressModal a {
+    color: rgb(66, 102, 245);
 }
 
 footer {
