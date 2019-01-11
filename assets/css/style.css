@@ -204,6 +204,12 @@ a {
     color: #25cef9;
 }
 
+.popUp {
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 300;
+    font-size: 16px !important;
+}
+
 footer {
     font-family: futura-pt-condensed, sans-serif;
     font-weight: 300;
