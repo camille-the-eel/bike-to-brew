@@ -753,6 +753,7 @@ function splashScreen() {
   setTimeout(function () {
     $("#splashScreen").slideUp(500);
     $("#appContent").fadeIn(1000);
+    $("footer").fadeIn(1000);
     buttonClick();
     geoCall(distance());
   }, 1000);

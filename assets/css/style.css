@@ -44,13 +44,9 @@ button {
     padding-bottom: 10px !important;
 }
 
-/* label {
-  padding-bottom: 10px !important;
-} */
-
-#coordinateInput:active {
+/* #coordinateInput:active {
     padding-bottom: -10px !important;
-}
+} */
 
 form {
     position: relative;
@@ -125,6 +121,7 @@ input:-ms-input-placeholder {
 #searchContent {
     box-shadow: 10px 10px 10px -6px rgb(75, 44, 26);
     padding-right: 0px;
+    width: 100%;
 }
 
 #markerMap {
@@ -149,20 +146,24 @@ input:-ms-input-placeholder {
 
 .searchHeader {
     background-color: #4A2C1A;
-    height: 40px;
+    height: 55 px;
     color: #ffffff;
-    font-weight: bold;
     text-align: left;
-    font-size: 22px;
     box-shadow: 0px 4px 4px rgb(75, 44, 26, 0.5);
     position: relative;
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 500;
+    font-size: 35px !important;
 }
 
 .searchList {
     background-color: #A36301;
-    height: 185px;
+    height: 167px;
     color: #ffffff;
     overflow-y: scroll;
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 300;
+    font-size: 25px !important;
 }
 
 a {
@@ -234,6 +235,21 @@ background: transparent;
     }
 
 }
+
+  footer {
+    font-family: futura-pt-condensed, sans-serif;
+    font-weight: 300;
+    font-size: 20px !important;
+    color: #a36301;
+    border-top: 2px solid #a36301;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    height: 60px;
+    text-align: center;
+    margin-bottom: 10px;
+    display: none;
+  }
 
 @media only screen and (max-width: 600px) {
     .container{
