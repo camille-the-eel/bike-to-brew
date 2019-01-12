@@ -662,7 +662,6 @@ function trailDetails(trailId) {
 //   }
 // }
 function breweryDetails(breweryId) {
-  clearInterval(scroll);
   var request = {
     placeId: breweryId,
     fields: ['url', 'website', 'name', 'formatted_address', 'formatted_phone_number', 'photos', 'rating']
@@ -717,9 +716,20 @@ function breweryDetails(breweryId) {
         scroll = setInterval(timer, 4000)
       }
       $('#modalBrewery').modal('open');
+      initCarouselModal();
     }
   };
 
+}
+
+function initCarouselModal() {
+  var elems = document.querySelectorAll('.carousel');
+  var instances = M.Carousel.init(elems, {
+    numVisible: 1,
+    fullWidth: true,
+    indicators: true,
+  });
+  instances[0].set(2);
 }
 
 function timer(){
@@ -831,31 +841,33 @@ function splashScreen() {
   }, 1000);
 }
 
+function stopScroll(){
+  clearInterval(scroll);
+}
+
 
 
 // document on ready
 $(document).ready(function () {
-  // trailCall();
-  // geoCall(distance());
   splashScreen();
   $('.dropdown-trigger').dropdown();
   $('.collapsible').collapsible();
-  $('.modal').modal();
+  $('.modal').modal({'onCloseEnd': stopScroll})
   // $('.carousel').carousel({fullwidth: true});
-  var elems = document.querySelectorAll('.modal');
-  var instances = M.Modal.init(elems, {
-     'onOpenEnd': initCarouselModal
- });
+//   var elems = document.querySelectorAll('.modal');
+//   var instances = M.Modal.init(elems, {
+//      'onOpenEnd': initCarouselModal
+//  });
 
-function initCarouselModal() {
-  var elems = document.querySelectorAll('.carousel');
-  var instances = M.Carousel.init(elems, {
-    numVisible: 1,
-    fullWidth: true,
-    indicators: true,
-  });
-  instances[0].set(2);
-}
+// function initCarouselModal() {
+//   var elems = document.querySelectorAll('.carousel');
+//   var instances = M.Carousel.init(elems, {
+//     numVisible: 1,
+//     fullWidth: true,
+//     indicators: true,
+//   });
+//   instances[0].set(2);
+// }
 
   // end of doc ready
 });
