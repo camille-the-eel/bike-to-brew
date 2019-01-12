@@ -82,20 +82,26 @@ input {
     font-family: futura-pt-condensed, sans-serif;
     font-weight: 500;
     font-size: 30px !important;
+    padding-bottom: 0px !important;
 }
 
 .input-field {
     background-color: transparent !important;
     border: none !important;
     outline: none !important;
+    box-shadow: none !important;
 }
-
 
 .input-field label {
     color: #ffffff;
     font-family: futura-pt-condensed, sans-serif;
     font-weight: 500;
     font-size: 30px !important;
+}
+
+label.active {
+    margin-top: -15px !important;
+    line-height: 20px;
 }
 
 .input-field:focus + .icon-white  {
@@ -105,7 +111,7 @@ input {
 .input-field input:focus + label {
     color: #4a2c1a !important;
     font-size: 30px !important;
-    margin-top: -20px !important;
+    margin-top: -15px !important;
 }
 
 .input-field input {
