@@ -165,10 +165,12 @@ input:-ms-input-placeholder {
     margin: auto;
     max-width: 400px;
 }
-
-.carousel-item img {
-    max-height: auto;
+.carousel {
+    max-height: 250px;
 }
+/* .carousel-item img {
+    max-height: auto;
+} */
 
 .stars-outer {
 display: inline-block;
