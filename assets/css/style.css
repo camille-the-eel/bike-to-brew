@@ -171,10 +171,12 @@ input:-ms-input-placeholder {
     margin: auto;
     max-width: 400px;
 }
-
-.carousel-item img {
-    max-height: auto;
+.carousel {
+    max-height: 250px;
 }
+/* .carousel-item img {
+    max-height: auto;
+} */
 
 .stars-outer {
 display: inline-block;
@@ -334,11 +336,7 @@ background: transparent;
 
     #formRow {
         position: relative;
-<<<<<<< HEAD
-        top: 6%;
-=======
         top: 9%;
->>>>>>> master
         bottom: 0px;
     }
 

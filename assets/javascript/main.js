@@ -703,15 +703,21 @@ function breweryDetails(breweryId) {
         }
       }else{
         for ( let i = 0; i < place.photos.length; i++){
-          let pURL = place.photos[i].getUrl();
-          let cAnchor = $("<a>");
-          cAnchor.addClass("carousel-item")
-          cAnchor.attr({"href": webSite, "target": "_blank"});
-          let cImg = $("<img>");
-          cImg.attr("src", pURL);
-          cAnchor.append(cImg);
-          $(".carousel").append(cAnchor)
-          // $('.carousel').carousel();
+          let height = place.photos[i].height;
+          let width = place.photos[i].width;
+          let ratio = height / width;
+          console.log (ratio);
+          if (ratio < 1.4){
+            console.log ("ratio if: " + ratio)
+            let pURL = place.photos[i].getUrl();
+            let cAnchor = $("<a>");
+            cAnchor.addClass("carousel-item")
+            cAnchor.attr({"href": webSite, "target": "_blank"});
+            let cImg = $("<img>");
+            cImg.attr("src", pURL);
+            cAnchor.append(cImg);
+            $(".carousel").append(cAnchor)
+          }        
         }
         scroll = setInterval(timer, 4000)
       }
