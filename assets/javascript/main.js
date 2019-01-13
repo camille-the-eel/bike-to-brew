@@ -1,10 +1,6 @@
 // AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8  google API Key
 // 200235024-32c4fc71813961608e163497918dd634 mtb project API key
 
-// Google Multiple Results for brewery url: https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.5407,-77.4360&radius=1000&keyword=brewery&key=AIzaSyAkRgKvL87NTW0sZv9yDSOpQRPXaVV61h8
-
-// https://www.mtbproject.com/data/get-trails?lat=40.0274&lon=-105.2519&maxDistance=10&key=200235024-32c4fc71813961608e163497918dd634
-
 var map;
 var markers = [];
 var infowindow;
@@ -78,7 +74,6 @@ function placesCall(dist, mapCtr) {
   };
 
   service = new google.maps.places.PlacesService(map);
-  // service.nearbySearch(request, callback);
   service.nearbySearch(request, callback);
   function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -94,8 +89,8 @@ function placesCall(dist, mapCtr) {
 
 // pushes desired info from AJAX objects then calls list functions and marker map
 function makeArrays() {
-  console.log(breweryObject);
-  console.log(mtbObject);
+  // console.log(breweryObject);
+  // console.log(mtbObject);
   var mtbInfoArr = []
   var breweryInfoArr = []
   let i = 0
@@ -511,49 +506,47 @@ function mapPanSearch() {
   map.controls[google.maps.ControlPosition.RIGHT_TOP].push(searchControlDiv);
 }
 
-// search button settings
+// settings for search button that will be pushed into the google map
 function SearchControl(controlDiv, map) {
+  // Set CSS for the control border.
+  var controlUI = document.createElement('div');
+  controlUI.style.backgroundColor = '#fff';
+  controlUI.style.border = '2px solid #fff';
+  controlUI.style.borderRadius = '2px';
+  controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+  controlUI.style.cursor = 'pointer';
+  controlUI.style.marginTop = '-50px';
+  controlUI.style.marginRight = '60px';
+  controlUI.style.textAlign = 'center';
+  controlUI.title = 'Click to redo search at center of map';
+  controlDiv.appendChild(controlUI);
 
-    // Set CSS for the control border.
-    var controlUI = document.createElement('div');
-    controlUI.style.backgroundColor = '#fff';
-    controlUI.style.border = '2px solid #fff';
-    controlUI.style.borderRadius = '2px';
-    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-    controlUI.style.cursor = 'pointer';
-    controlUI.style.marginTop = '-50px';
-    controlUI.style.marginRight = '60px';
-    controlUI.style.textAlign = 'center';
-    controlUI.title = 'Click to redo search at center of map';
-    controlDiv.appendChild(controlUI);
+  // Set CSS for the control interior.
+  var controlText = document.createElement('div');
+  controlText.style.color = 'rgb(25,25,25)';
+  controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+  controlText.style.fontSize = '16px';
+  controlText.style.lineHeight = '38px';
+  controlText.style.paddingLeft = '8px';
+  controlText.style.paddingRight = '8px';
+  controlText.innerHTML = 'Redo Search';
+  controlUI.appendChild(controlText);
 
-    // Set CSS for the control interior.
-    var controlText = document.createElement('div');
-    controlText.style.color = 'rgb(25,25,25)';
-    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-    controlText.style.fontSize = '16px';
-    controlText.style.lineHeight = '38px';
-    controlText.style.paddingLeft = '8px';
-    controlText.style.paddingRight = '8px';
-    controlText.innerHTML = 'Redo Search';
-    controlUI.appendChild(controlText);
-
-    // Setup the click event listeners: simply set the map to Chicago.
-    controlUI.addEventListener('click', function() {
-        let newCtr = map.getCenter();
-        let lat = newCtr.lat();
-        let lon = newCtr.lng();
-        lat = parseFloat(lat.toFixed(5));
-        lon = parseFloat(lon.toFixed(5));
-        $("#coordinateInput").val(lat + ', ' + lon)
-        let newLoc = {
-            lat: lat,
-            lng: lon
-        };
-        let dist = distance();
-        trailCall(dist, newLoc);
-    });
-
+  // Setup the click event listeners: simply set the map to Chicago.
+  controlUI.addEventListener('click', function () {
+    let newCtr = map.getCenter();
+    let lat = newCtr.lat();
+    let lon = newCtr.lng();
+    lat = parseFloat(lat.toFixed(5));
+    lon = parseFloat(lon.toFixed(5));
+    $("#coordinateInput").val(lat + ', ' + lon)
+    let newLoc = {
+      lat: lat,
+      lng: lon
+    };
+    let dist = distance();
+    trailCall(dist, newLoc);
+  });
 }
 
 // draws the markers on the map, adds click event for info box pop up
@@ -598,6 +591,7 @@ function addMarkers(mapInfoArr) {
   zoomExtents();
 }
 
+// zoom the map to the extents of the group of markers, and if only 1 marker is place just to set zoom at a specific height
 function zoomExtents() {
   var bounds = new google.maps.LatLngBounds();
   if (markers.length > 1) {
@@ -613,8 +607,6 @@ function zoomExtents() {
 
 // receives info from mtb api, populates mtb array and updates DOM list of trails
 function trailList(mtbInfoArr) {
-  // let distItem = $("<li>").text("Search Distance: " + dist + " miles");
-  // $("#searchDist").text(dist);
   $(".mtbList").empty();
   for (var i = 0; i < mtbInfoArr.length; i++) {
     var trailName = mtbInfoArr[i].name;
@@ -640,27 +632,7 @@ function trailDetails(trailId) {
   $('#modal1').modal('open');
 }
 
-// function breweryDetails(breweryId) {
-//   var request = {
-//     placeId: breweryId,
-//     fields: ['url', 'website']
-//   };
-//   console.log(request);
-
-//   service = new google.maps.places.PlacesService(map);
-//   service.getDetails(request, placeDetails);
-//   function placeDetails(results, status) {
-//     if (status == google.maps.places.PlacesServiceStatus.OK) {
-//       console.log(results);
-//       let bURL = results.website;
-//       let breweryWidget = $("<div>");
-//       breweryWidget.html('<iframe style="width:100%; max-width:800px; height:410px;" frameborder="0" scrolling="yes" src=" ' + bURL + ' "></iframe>')
-//       // $(".breweryModal").empty();
-//       // $(".breweryModal").append(breweryWidget);
-//       $('#modalBrewery').modal('open');
-//     }
-//   }
-// }
+// function to call back google for specific details on a brewery using the place ID
 function breweryDetails(breweryId) {
   var request = {
     placeId: breweryId,
@@ -670,6 +642,7 @@ function breweryDetails(breweryId) {
   var service = new google.maps.places.PlacesService(map);
   service.getDetails(request, placeDetails)
 
+  // this function was originally nested becuase it needed access to variables that were sent to the function breweryDetails - that is no longer the case, but I have left it nested
   function placeDetails(place, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       console.log(place);
@@ -706,9 +679,7 @@ function breweryDetails(breweryId) {
           let height = place.photos[i].height;
           let width = place.photos[i].width;
           let ratio = height / width;
-          console.log (ratio);
           if (ratio < 1.4){
-            console.log ("ratio if: " + ratio)
             let pURL = place.photos[i].getUrl();
             let cAnchor = $("<a>");
             cAnchor.addClass("carousel-item")
@@ -725,9 +696,9 @@ function breweryDetails(breweryId) {
       initCarouselModal();
     }
   };
-
 }
 
+// function to initialize the carousel - it needs to be initialized after the modal is opened becuase when the model is hidden its height is 0 and this causes problems with the carousel
 function initCarouselModal() {
   var elems = document.querySelectorAll('.carousel');
   var instances = M.Carousel.init(elems, {
@@ -738,6 +709,7 @@ function initCarouselModal() {
   instances[0].set(2);
 }
 
+// this is the function to automatically advance the carousel to the next image
 function timer(){
   $('.carousel').carousel('next');
 }
@@ -798,10 +770,8 @@ function infoWindowPopup(marker) {
     infowindow.setContent('<div class = "popUp">' +
       '<strong>' + marker.title + '</strong><br>' +
       marker.address + '<br>' +
-      // '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(' + marker.id + ')">More Info</button>' +
       '<button class="btn waves-effect waves-light btn-small" type="button" name="action" class="trailDetails" onclick="breweryDetails(`' + mID + '`)">More Info</button>' +
       '</div>')
-    // infowindow.open(map, marker);
   }
   $(".gm-style-iw").parent().css({"background-color": "red"});
   infowindow.open(map, marker);
@@ -847,6 +817,7 @@ function splashScreen() {
   }, 1000);
 }
 
+// This stops the scroll fucntion of carousel once the modal is closed
 function stopScroll(){
   clearInterval(scroll);
 }
@@ -859,21 +830,6 @@ $(document).ready(function () {
   $('.dropdown-trigger').dropdown();
   $('.collapsible').collapsible();
   $('.modal').modal({'onCloseEnd': stopScroll})
-  // $('.carousel').carousel({fullwidth: true});
-//   var elems = document.querySelectorAll('.modal');
-//   var instances = M.Modal.init(elems, {
-//      'onOpenEnd': initCarouselModal
-//  });
-
-// function initCarouselModal() {
-//   var elems = document.querySelectorAll('.carousel');
-//   var instances = M.Carousel.init(elems, {
-//     numVisible: 1,
-//     fullWidth: true,
-//     indicators: true,
-//   });
-//   instances[0].set(2);
-// }
 
   // end of doc ready
 });
