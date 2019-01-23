@@ -161,6 +161,7 @@ function markerMap(mapCtr) {
             streetViewControl: false,
             rotateControl: false,
             fullscreenControl: true,
+            gestureHandling: 'greedy',
             styles: [
                 {
                   elementType: "geometry",
@@ -545,6 +546,8 @@ function SearchControl(controlDiv, map) {
       lng: lon
     };
     let dist = distance();
+    $("#dist").val(dist)
+    M.updateTextFields();
     trailCall(dist, newLoc);
   });
 }
