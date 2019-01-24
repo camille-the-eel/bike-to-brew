@@ -50,7 +50,7 @@ button {
     height: fit-content;
 }
 
-#coordinateInput {
+#coordinateInput, #dist {
     background-color: transparent;
     padding-bottom: 10px !important;
     vertical-align: baseline;
@@ -66,10 +66,10 @@ button {
 }
 
 .radiusSearch {
-    position: relative;
-    top: 10px;
-    overflow-wrap: break-word;
-    vertical-align: baseline;
+    /* position: relative; */
+    /* padding-bottom: 10px; */
+    /* overflow-wrap: break-word; */
+    /* vertical-align: baseline; */
 }
 
 #searchGlass {

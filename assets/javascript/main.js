@@ -161,6 +161,7 @@ function markerMap(mapCtr) {
             streetViewControl: false,
             rotateControl: false,
             fullscreenControl: true,
+            gestureHandling: 'greedy',
             styles: [
                 {
                   elementType: "geometry",
@@ -545,6 +546,8 @@ function SearchControl(controlDiv, map) {
       lng: lon
     };
     let dist = distance();
+    $("#dist").val(dist)
+    M.updateTextFields();
     trailCall(dist, newLoc);
   });
 }
@@ -734,11 +737,14 @@ function buttonClick() {
   $("#coordinateSubmit").click(function (event) {
     event.preventDefault();
     let x = $("#coordinateInput").val();
+    let srchRad = distance();
     if (x == "") {
-      geoCall(distance());
+      geoCall(srchRad);
     } else {
-      coordinateCall(x, distance());
+      coordinateCall(x, srchRad);
     }
+    $("#dist").val(srchRad);
+    M.updateTextFields();
   })
 
   $('.clearSearch').click(function () {
