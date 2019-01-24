@@ -737,11 +737,14 @@ function buttonClick() {
   $("#coordinateSubmit").click(function (event) {
     event.preventDefault();
     let x = $("#coordinateInput").val();
+    let srchRad = distance();
     if (x == "") {
-      geoCall(distance());
+      geoCall(srchRad);
     } else {
-      coordinateCall(x, distance());
+      coordinateCall(x, srchRad);
     }
+    $("#dist").val(srchRad);
+    M.updateTextFields();
   })
 
   $('.clearSearch').click(function () {
