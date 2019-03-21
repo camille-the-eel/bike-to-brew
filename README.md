@@ -1,26 +1,29 @@
-# ByteMe
+# Bike To Brew
 
-- Project Title:
-    Bike to Beer
+Plan a tasty brew after your trail ride on Bike To Brew, search breweries and mountain biking trails together based on your chosen location, brewery, or trail.
 
-- Team Members:
-    Camille Hughes
-    Scott Zinski
-    Ryan Colosanti
-    Marshall Dreiling
+=========================================================================================
 
-- Project Description:
-    App which allows you to select a bike trail (city or mountain biking) and will show you the closest breweries to the trail.
-    Alternatively, you can select a brewery it will show you the closest bike trails to you.
+**Team**
+- Scott Zinski
+- Camille Hughes
+- Ryan Colosanti
+- Marshall Dreiling
 
-- Sketch of Final Product (optional)
+**Technologies Used**
+- HTML
+- CSS
+- Javascript
+- jQuery
+- AJAX
+- APIs: 
+    - Mountain Bike Project (https://www.mtbproject.com/)
+    - Google Places
+- Materialize CSS Framework
+- Adobe Fonts
+- Font Awesome Icons
 
-- APIs to be Used
-    Beer: Beer Mapping Project (beermapping.com) / Brewery Database (brewerydb.com)
-    Biking: Trail Forks (trailforks.com) / Bike Map (BikeMap.net)
-
-- Rough Breakdown of Tasks (optional)
-
+=========================================================================================
 
 - MVP
 
@@ -83,14 +86,3 @@ Wireframe Sketch: https://xd.adobe.com/view/9981514b-9d59-41cc-62e7-0435917c9493
     -zip code
     -brewery
     -trail
-
--User Story Statements
-
-    As a cyclist
-    I want to plan my ride to end with a good beer
-    So that I can combine two of my favorite hobbies
-
-    As a beer enthusiast
-    I want to find trails near my favorite brewery
-    So that I can exercise before I drink
-
