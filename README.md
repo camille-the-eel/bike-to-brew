@@ -1,6 +1,6 @@
 # Bike To Brew
 
-Plan a tasty brew after your trail ride on Bike To Brew, search breweries and mountain biking trails together based on your chosen location, brewery, or trail.
+Plan a tasty brew after your trail ride on Bike To Brew through the web or your mobile device, search breweries and mountain biking trails together based on your chosen location, brewery, or trail.
 
 =======================================================================================
 
@@ -43,6 +43,10 @@ Users have the option to search based on brewery, trail name, or location (in th
 =======================================================================================
 
 ![Gif Part 3](assets/brew-3.gif)
+
+=======================================================================================
+
+![Mobile Gif Part 1](assets/brew-mobile-1.gif)        ![Mobile Gif Part 2](assets/brew-mobile-2.gif)
 
 =======================================================================================
 
