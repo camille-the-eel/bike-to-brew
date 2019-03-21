@@ -46,7 +46,7 @@ Users have the option to search based on brewery, trail name, or location (in th
 
 =======================================================================================
 
-![Mobile Gif Part 1](assets/brew-mobile-1.gif)==![Mobile Gif Part 2](assets/brew-mobile-2.gif)
+![Mobile Gif Part 1](assets/brew-mobile-1.gif) &nbsp; &nbsp; ![Mobile Gif Part 2](assets/brew-mobile-2.gif)
 
 =======================================================================================
 
