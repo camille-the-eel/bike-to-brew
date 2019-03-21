@@ -34,7 +34,7 @@ Users have the option to search based on brewery, trail name, or location (in th
 
 =======================================================================================
 
-![Gif Part 1](assets/brew_1.gif)
+![Gif Part 1](assets/brew-1.gif)
 
 =======================================================================================
 
