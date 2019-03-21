@@ -38,6 +38,14 @@ Users have the option to search based on brewery, trail name, or location (in th
 
 =======================================================================================
 
+![Gif Part 2](assets/brew-2.gif)
+
+=======================================================================================
+
+![Gif Part 3](assets/brew-3.gif)
+
+=======================================================================================
+
 Wireframe Initial Sketches: https://xd.adobe.com/view/9981514b-9d59-41cc-62e7-0435917c9493-efb0/
 
 Final Wireframe: 
