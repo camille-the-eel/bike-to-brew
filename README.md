@@ -19,7 +19,7 @@ Plan a tasty brew after your trail ride on Bike To Brew, search breweries and mo
 - jQuery
 - AJAX
 - APIs: 
-    - Mountain Bike Project (https://www.mtbproject.com/)
+    - Mountain Bike Project www.mtbproject.com
     - Google Places
 - Materialize CSS Framework
 - Adobe Fonts
