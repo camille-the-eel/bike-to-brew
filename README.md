@@ -10,6 +10,8 @@ Plan a tasty brew after your trail ride on Bike To Brew, search breweries and mo
 - Ryan Colosanti
 - Marshall Dreiling
 
+=======================================================================================
+
 **Technologies Used**
 - HTML
 - CSS
@@ -31,40 +33,11 @@ Additionally, the right hand side of the populated map is a list of all nearby b
 
 Users have the option to search based on brewery, trail name, or location (in the form of city, city and state, latitude and longitude, or zip code). This will present the user with all trails and breweries within a ten mile radius of their search. Users also have the ability to change this radius to anywhere from one mile, up to fifty miles.
 
-
--User Story Statements
-
-    As a cyclist
-    I want to plan my ride to end with a good beer
-    So that I can combine two of my favorite hobbies
-
-    As a beer enthusiast
-    I want to find trails near my favorite brewery
-    So that I can exercise before I drink
-
-Wireframe Sketch: https://xd.adobe.com/view/9981514b-9d59-41cc-62e7-0435917c9493-efb0/
-
-- MVP
-
-    - Target Audience: cyclists interested in beer
-    - Problems: user wants to enjoy a bike ride and enjoy a tasty beer
-    - Goal: connect cyclists with good trails and good beer 
-
-    - Key Features:
-    - map of trails
-    - map of breweries
-    - proximity to each other 
-    - list of trails/breweries
-
-    - Additional Features:
-    - description for list of trails/breweries
-    - time planner 
-    - weather conditions
+=======================================================================================
 
 
+=======================================================================================
 
-    ---start with a map 
-    search options:
-    -zip code
-    -brewery
-    -trail
+Wireframe Initial Sketch: https://xd.adobe.com/view/9981514b-9d59-41cc-62e7-0435917c9493-efb0/
+
+Final Wireframe: 
