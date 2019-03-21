@@ -5,10 +5,10 @@ Plan a tasty brew after your trail ride on Bike To Brew, search breweries and mo
 =======================================================================================
 
 **Team**
-- **Scott Zinski** https://github.com/zkinsk
-- **Camille Hughes** https://github.com/camille-the-eel
-- **Ryan Colosanti** https://github.com/rjcolo28
-- **Marshall Dreiling** https://github.com/mdreiling
+- **Scott Zinski** github.com/zkinsk
+- **Camille Hughes** github.com/camille-the-eel
+- **Ryan Colosanti** github.com/rjcolo28
+- **Marshall Dreiling** github.com/mdreiling
 
 =======================================================================================
 
