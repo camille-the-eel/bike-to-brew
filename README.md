@@ -2,7 +2,7 @@
 
 Plan a tasty brew after your trail ride on Bike To Brew, search breweries and mountain biking trails together based on your chosen location, brewery, or trail.
 
-=========================================================================================
+=======================================================================================
 
 **Team**
 - Scott Zinski
@@ -23,32 +23,14 @@ Plan a tasty brew after your trail ride on Bike To Brew, search breweries and mo
 - Adobe Fonts
 - Font Awesome Icons
 
-=========================================================================================
+=======================================================================================
 
-- MVP
+On page load, the user is presented with a geolocated map of their current location, populated with all mountain biking trails and breweries in a ten mile radius. These are shown on the map with their own respective icons, and on click, a pop up is shown, with the name of the selected brewery or trail and a "More Info" button. Upon clicking this button a modal with more information about said brewery or trail will be displayed for the user to browse.
 
-    - Target Audience: cyclists interested in beer
-    - Problems: user wants to enjoy a bike ride and enjoy a tasty beer
-    - Goal: connect cyclists with good trails and good beer 
+Additionally, the right hand side of the populated map is a list of all nearby breweries, and a list of all nearby trails. Clicking on any of these list items will cause the map to jump to and zoom into the map icon of your selected choice, while also displaying the pop up with the name and "More Info" button.
 
-    - Key Features:
-    - map of trails
-    - map of breweries
-    - proximity to each other 
-    - list of trails/breweries
+Users have the option to search based on brewery, trail name, or location (in the form of city, city and state, latitude and longitude, or zip code). This will present the user with all trails and breweries within a ten mile radius of their search. Users also have the ability to change this radius to anywhere from one mile, up to fifty miles.
 
-    - Additional Features:
-    - description for list of trails/breweries
-    - time planner 
-    - weather conditions
-
-
-
-    ---start with a map 
-    search options:
-    -zip code
-    -brewery
-    -trail
 
 -User Story Statements
 
