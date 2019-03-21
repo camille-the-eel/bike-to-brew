@@ -23,7 +23,6 @@ Plan a tasty brew after your trail ride on Bike To Brew, search breweries and mo
     - Google Places
 - Materialize CSS Framework
 - Adobe Fonts
-- Font Awesome Icons
 
 =======================================================================================
 
