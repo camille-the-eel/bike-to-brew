@@ -5,10 +5,10 @@ Plan a tasty brew after your trail ride on Bike To Brew through the web or your 
 =======================================================================================
 
 **Team**
-- **Scott Zinski** https://github.com/zkinsk
-- **Camille Hughes** https://github.com/camille-the-eel
-- **Ryan Colosanti** https://github.com/rjcolo28
-- **Marshall Dreiling** https://github.com/mdreiling
+- <a href="https://github.com/zkinsk">Scott Zinski</a>
+- <a href="https://github.com/camille-the-eel">Camille Hughes</a>
+- <a href="https://github.com/rjcolo28">Ryan Colosanti</a>
+- <a href="https://github.com/mdreiling">Marshall Dreiling</a>
 
 =======================================================================================
 
@@ -19,10 +19,10 @@ Plan a tasty brew after your trail ride on Bike To Brew through the web or your 
 - jQuery
 - AJAX
 - APIs: 
-    - Mountain Bike Project www.mtbproject.com
+    - <a href="www.mtbproject.com">Mountain Bike Project</a>
     - Google Places
-- Materialize CSS Framework
-- Adobe Fonts
+- <a href="https://materializecss.com/">Materialize CSS Framework</a>
+- <a href="https://fonts.adobe.com/">Adobe Fonts</a>
 
 =======================================================================================
 
